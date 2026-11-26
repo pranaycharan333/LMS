@@ -1,0 +1,3677 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>A Seat to Study — LPU Campus Study Space Finder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-canvas: #F4F7F5;
+    --bg-mist: #EBF1ED;
+    --bg-sage-tint: #E3EFE9;
+    --bg-subtle: #FAFBF9;
+    --bg-white: #FFFFFF;
+    --border-sage: #D5E0D9;
+    --border-strong: #B8C8BE;
+    --ink-950: #0A1C16;
+    --ink-900: #132A22;
+    --ink-800: #14362B;
+    --ink-700: #1E4639;
+    --ink-600: #4A635A;
+    --ink-500: #647D73;
+    --sage-700: #215240;
+    --sage-600: #2D6A54;
+    --sage-500: #3B8067;
+    --sage-200: #C4DDD1;
+    --emerald-bg: #DCFCE7;
+    --emerald-soft: #F0FDF4;
+    --emerald-border: #86EFAC;
+    --emerald-ink: #16A34A;
+    --emerald-dark: #15803D;
+    --rose-bg: #FEE2E2;
+    --rose-soft: #FEF2F2;
+    --rose-border: #FCA5A5;
+    --rose-ink: #DC2626;
+    --rose-dark: #B91C1C;
+    --blue-ink: #2563EB;
+    --blue-dark: #1D4ED8;
+    --amber-bg: #FEF3C7;
+    --amber-soft: #FFFBEB;
+    --amber-border: #FCD34D;
+    --amber-ink: #D97706;
+    --amber-dark: #B45309;
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-sans);
+    background-color: var(--bg-canvas);
+    color: var(--ink-900);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, .font-serif {
+    font-family: var(--font-serif);
+    letter-spacing: -0.015em;
+    margin: 0;
+    color: var(--ink-900);
+  }
+
+  p {
+    margin: 0;
+  }
+
+  button, input, select {
+    font-family: inherit;
+    color: inherit;
+  }
+
+  button {
+    cursor: pointer;
+    border: none;
+    background: none;
+    padding: 0;
+    transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+                background-color 0.2s ease,
+                box-shadow 0.2s ease,
+                border-color 0.2s ease,
+                color 0.2s ease,
+                opacity 0.2s ease;
+  }
+
+  button:not(:disabled):active {
+    transform: scale(0.98) !important;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  /* Header */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: rgba(244, 247, 245, 0.94);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-sage);
+  }
+
+  .header-inner {
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .brand-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-align: left;
+    flex-shrink: 0;
+  }
+
+  .brand-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    background: var(--sage-600);
+    box-shadow: 0 0 0 3px var(--bg-sage-tint);
+  }
+
+  .brand-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--ink-900);
+    letter-spacing: -0.01em;
+  }
+
+  .brand-sub {
+    color: var(--ink-500);
+    font-weight: 500;
+  }
+
+  .top-nav {
+    display: none;
+    align-items: center;
+    gap: 1.35rem;
+  }
+
+  @media (min-width: 1024px) {
+    .top-nav {
+      display: flex;
+    }
+  }
+
+  .nav-link {
+    position: relative;
+    padding: 0.35rem 0;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--ink-600);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .nav-link:hover {
+    color: var(--ink-900);
+  }
+
+  .nav-link.active {
+    color: var(--ink-900);
+    font-weight: 700;
+  }
+
+  .nav-link.active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--ink-800);
+  }
+
+  .badge-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 999px;
+    background: var(--rose-ink);
+    color: #FFFFFF;
+    font-size: 0.65rem;
+    font-weight: 700;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .search-form {
+    display: none;
+    position: relative;
+    width: 190px;
+  }
+
+  @media (min-width: 1220px) {
+    .search-form {
+      display: block;
+    }
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 0.42rem 0.75rem 0.42rem 1.85rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    background: var(--bg-white);
+    border: 1px solid var(--border-sage);
+    color: var(--ink-900);
+    outline: none;
+  }
+
+  .search-input:focus {
+    border-color: var(--sage-600);
+    box-shadow: 0 0 0 3px var(--bg-sage-tint);
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 0.65rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.78rem;
+    color: var(--ink-500);
+    pointer-events: none;
+  }
+
+  .role-switch {
+    display: inline-flex;
+    align-items: center;
+    background: var(--bg-mist);
+    border: 1px solid var(--border-sage);
+    border-radius: 999px;
+    padding: 3px;
+  }
+
+  .role-btn {
+    padding: 0.3rem 0.72rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--ink-600);
+  }
+
+  .role-btn:hover {
+    color: var(--ink-900);
+  }
+
+  .role-btn.active {
+    background: var(--bg-white);
+    color: var(--ink-900);
+    box-shadow: 0 1px 4px rgba(19, 42, 34, 0.1);
+  }
+
+  /* Buttons */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.72rem 1.4rem;
+    border-radius: 999px;
+    background: var(--ink-800);
+    color: var(--bg-canvas);
+    border: 1px solid var(--ink-800);
+    font-size: 0.82rem;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(20, 54, 43, 0.16);
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background: var(--ink-950);
+    border-color: var(--ink-950);
+    transform: translateY(-1.5px);
+    box-shadow: 0 8px 22px rgba(10, 28, 22, 0.24);
+  }
+
+  .btn-sage {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.72rem 1.35rem;
+    border-radius: 999px;
+    background: var(--sage-600);
+    color: #FFFFFF;
+    border: 1px solid var(--sage-600);
+    font-size: 0.82rem;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(45, 106, 84, 0.18);
+  }
+
+  .btn-sage:hover:not(:disabled) {
+    background: var(--sage-700);
+    border-color: var(--sage-700);
+    transform: translateY(-1.5px);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.68rem 1.25rem;
+    border-radius: 999px;
+    background: var(--bg-white);
+    color: var(--ink-900);
+    border: 1px solid var(--border-sage);
+    font-size: 0.82rem;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(19, 42, 34, 0.04);
+  }
+
+  .btn-secondary:hover:not(:disabled) {
+    background: var(--bg-mist);
+    border-color: var(--border-strong);
+    transform: translateY(-1.5px);
+  }
+
+  .btn-danger-soft {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.65rem 1.2rem;
+    border-radius: 999px;
+    background: var(--rose-soft);
+    color: var(--rose-dark);
+    border: 1px solid var(--rose-border);
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .btn-danger-soft:hover {
+    background: var(--rose-bg);
+  }
+
+  .btn-sm {
+    padding: 0.45rem 0.9rem;
+    font-size: 0.75rem;
+  }
+
+  .icon-pill-btn {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    background: var(--bg-white);
+    border: 1px solid var(--border-sage);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+  }
+
+  .icon-pill-btn:hover {
+    background: var(--bg-mist);
+  }
+
+  .profile-pill {
+    display: none;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.25rem 0.75rem 0.25rem 0.3rem;
+    border-radius: 999px;
+    background: var(--bg-white);
+    border: 1px solid var(--border-sage);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--ink-900);
+  }
+
+  @media (min-width: 640px) {
+    .profile-pill {
+      display: inline-flex;
+    }
+  }
+
+  .profile-pill:hover {
+    background: var(--bg-mist);
+  }
+
+  .avatar-mini {
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    background: var(--bg-sage-tint);
+    color: var(--sage-700);
+    font-size: 0.65rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--sage-200);
+  }
+
+  .header-cta {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .header-cta {
+      display: inline-flex;
+      padding: 0.48rem 1rem;
+      font-size: 0.76rem;
+    }
+  }
+
+  /* Editorial Cards & Surfaces */
+  .card {
+    background: var(--bg-white);
+    border: 1px solid var(--border-sage);
+    border-radius: 18px;
+    box-shadow: 0 10px 28px rgba(19, 42, 34, 0.045);
+  }
+
+  .card-hover {
+    transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.22s ease, border-color 0.22s ease;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 36px rgba(19, 42, 34, 0.085);
+    border-color: var(--border-strong);
+  }
+
+  .mist-band {
+    background: var(--bg-mist);
+    border-top: 1px solid var(--border-sage);
+    border-bottom: 1px solid var(--border-sage);
+  }
+
+  .eyebrow-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    background: var(--bg-sage-tint);
+    border: 1px solid var(--sage-200);
+    color: var(--sage-700);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .eyebrow-label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--sage-600);
+    margin-bottom: 0.4rem;
+  }
+
+  /* Demo Banner */
+  .demo-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.65rem;
+    padding: 0.65rem 1.1rem;
+    border-radius: 999px;
+    background: var(--bg-mist);
+    border: 1px solid var(--border-sage);
+    font-size: 0.76rem;
+    color: var(--ink-600);
+    margin-bottom: 1.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .demo-bar {
+      border-radius: 14px;
+    }
+  }
+
+  .demo-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--sage-600);
+    flex-shrink: 0;
+  }
+
+  /* Stepper */
+  .stepper-card {
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.25rem;
+    overflow-x: auto;
+  }
+
+  .stepper-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 610px;
+    gap: 0.5rem;
+  }
+
+  .step-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .step-num {
+    padding: 0.22rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-sage);
+    color: var(--ink-500);
+  }
+
+  .step-btn.done .step-num {
+    background: var(--bg-sage-tint);
+    border-color: var(--sage-200);
+    color: var(--sage-700);
+  }
+
+  .step-btn.current .step-num {
+    background: var(--ink-800);
+    border-color: var(--ink-800);
+    color: #FFFFFF;
+  }
+
+  .step-text {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--ink-500);
+    white-space: nowrap;
+  }
+
+  .step-btn.done .step-text {
+    color: var(--ink-700);
+  }
+
+  .step-btn.current .step-text {
+    color: var(--ink-900);
+    font-weight: 700;
+  }
+
+  .step-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border-sage);
+  }
+
+  .step-line.done {
+    background: var(--sage-600);
+  }
+
+  /* Hero Layout */
+  .hero-section {
+    border-bottom: 1px solid var(--border-sage);
+    padding: 2.75rem 0 3.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .hero-section {
+      padding: 4.5rem 0 5rem;
+    }
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  @media (min-width: 1024px) {
+    .hero-grid {
+      grid-template-columns: 7fr 5fr;
+      gap: 3rem;
+    }
+  }
+
+  .hero-title {
+    font-size: clamp(2.35rem, 4.6vw, 3.55rem);
+    font-weight: 500;
+    line-height: 1.07;
+    color: var(--ink-900);
+    margin: 1rem 0 1.15rem;
+  }
+
+  .hero-lead {
+    font-size: 1rem;
+    color: var(--ink-600);
+    max-width: 560px;
+    line-height: 1.65;
+  }
+
+  .hero-cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1.65rem;
+  }
+
+  .quick-steps-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--border-sage);
+    max-width: 580px;
+  }
+
+  @media (min-width: 640px) {
+    .quick-steps-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .quick-step-num {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--sage-600);
+  }
+
+  .quick-step-desc {
+    font-size: 0.76rem;
+    color: var(--ink-600);
+    margin-top: 0.2rem;
+  }
+
+  /* Snapshot Card */
+  .snapshot-card {
+    padding: 1.5rem;
+  }
+
+  .snapshot-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid var(--border-sage);
+  }
+
+  .snapshot-kicker {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-500);
+  }
+
+  .demo-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: var(--sage-700);
+  }
+
+  .kv-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .kv-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.72rem 0;
+    border-bottom: 1px solid #E9EFEA;
+    font-size: 0.8rem;
+  }
+
+  .kv-row:last-child {
+    border-bottom: none;
+  }
+
+  .kv-label {
+    color: var(--ink-500);
+  }
+
+  .kv-val {
+    font-weight: 600;
+    color: var(--ink-900);
+    text-align: right;
+  }
+
+  .kv-val.vacant-highlight {
+    color: var(--emerald-dark);
+    font-weight: 700;
+  }
+
+  .preview-box {
+    margin-top: 0.9rem;
+    padding-top: 0.95rem;
+    border-top: 1px solid var(--border-sage);
+  }
+
+  .preview-box-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    color: var(--ink-500);
+    margin-bottom: 0.65rem;
+  }
+
+  .chair-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.55rem;
+    background: var(--bg-subtle);
+    padding: 0.65rem;
+    border-radius: 14px;
+    border: 1px solid var(--border-sage);
+  }
+
+  /* Chair Tiles */
+  .chair-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 0.35rem;
+    border-radius: 12px;
+    border: 1.5px solid var(--border-sage);
+    background: var(--bg-white);
+    user-select: none;
+  }
+
+  .chair-tile svg {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 3px;
+  }
+
+  .chair-code {
+    font-size: 0.68rem;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .chair-tile.vacant {
+    color: var(--emerald-dark);
+    border-color: var(--emerald-border);
+    background: var(--emerald-soft);
+    cursor: pointer;
+  }
+
+  .chair-tile.vacant:hover {
+    transform: translateY(-2px) scale(1.04);
+    border-color: var(--emerald-ink);
+    background: var(--emerald-bg);
+    box-shadow: 0 6px 14px rgba(22, 163, 74, 0.18);
+  }
+
+  .chair-tile.booked {
+    color: var(--rose-dark);
+    border-color: var(--rose-border);
+    background: var(--rose-soft);
+    opacity: 0.9;
+  }
+
+  .chair-tile.expiring {
+    color: var(--amber-dark);
+    border-color: var(--amber-border);
+    background: var(--amber-soft);
+  }
+
+  .chair-tile.selected {
+    color: #FFFFFF;
+    border-color: var(--blue-dark);
+    background: var(--blue-ink);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.24), 0 8px 18px rgba(29, 78, 216, 0.26);
+    transform: scale(1.03);
+    cursor: pointer;
+  }
+
+  .chair-tile.mine {
+    color: var(--sage-700);
+    border-color: var(--sage-600);
+    background: var(--bg-sage-tint);
+    box-shadow: 0 0 0 2px rgba(45, 106, 84, 0.25);
+  }
+
+  /* Sections & Grids */
+  .section-block {
+    padding: 3.5rem 0;
+  }
+
+  @media (min-width: 1024px) {
+    .section-block {
+      padding: 4.5rem 0;
+    }
+  }
+
+  .section-header {
+    max-width: 640px;
+    margin-bottom: 2.25rem;
+  }
+
+  .section-title {
+    font-size: clamp(1.75rem, 3.2vw, 2.4rem);
+    font-weight: 500;
+    line-height: 1.15;
+    color: var(--ink-900);
+  }
+
+  .section-sub {
+    font-size: 0.9rem;
+    color: var(--ink-600);
+    margin-top: 0.6rem;
+    line-height: 1.6;
+  }
+
+  .grid-4 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .grid-4 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .grid-4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .grid-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .grid-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .editorial-tile {
+    padding: 1.5rem;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .tile-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.15rem;
+  }
+
+  .tile-num {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--sage-600);
+  }
+
+  .tile-tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--ink-500);
+  }
+
+  .tile-heading {
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
+  .tile-desc {
+    font-size: 0.8rem;
+    color: var(--ink-600);
+    line-height: 1.55;
+  }
+
+  .tile-foot {
+    margin-top: 1.35rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid #E9EFEA;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--ink-500);
+  }
+
+  /* FAQ Accordion */
+  .faq-wrap {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .faq-card {
+    overflow: hidden;
+  }
+
+  .faq-item + .faq-item {
+    border-top: 1px solid var(--border-sage);
+  }
+
+  .faq-btn {
+    width: 100%;
+    padding: 1.1rem 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    text-align: left;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink-900);
+    background: var(--bg-white);
+  }
+
+  .faq-btn:hover {
+    background: var(--bg-subtle);
+  }
+
+  .faq-btn.open {
+    background: var(--bg-mist);
+  }
+
+  .faq-body {
+    padding: 1rem 1.4rem 1.25rem;
+    font-size: 0.84rem;
+    color: var(--ink-600);
+    line-height: 1.65;
+    background: var(--bg-white);
+    border-top: 1px solid #EDF2EE;
+  }
+
+  /* Footer */
+  .site-footer {
+    background: var(--ink-950);
+    color: #C7D4CD;
+    padding: 3rem 0 2.25rem;
+    border-top: 1px solid var(--ink-800);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  @media (min-width: 640px) {
+    .footer-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .footer-grid {
+      grid-template-columns: 1.4fr 1fr 1fr 1.3fr;
+    }
+  }
+
+  .footer-h {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #FFFFFF;
+    margin-bottom: 0.85rem;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.55rem;
+  }
+
+  .footer-link {
+    font-size: 0.78rem;
+    color: #AFC0B7;
+  }
+
+  .footer-link:hover {
+    color: #FFFFFF;
+  }
+
+  .footer-bottom {
+    padding-top: 1.35rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    font-size: 0.74rem;
+    color: #8CA196;
+  }
+
+  /* Workspace Main Container */
+  .workspace-main {
+    flex: 1;
+    padding-top: 2rem;
+    padding-bottom: 5.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .workspace-main {
+      padding-bottom: 3.5rem;
+    }
+  }
+
+  .narrow-wrap {
+    max-width: 920px;
+    margin: 0 auto;
+  }
+
+  .page-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .page-title {
+    font-size: clamp(1.85rem, 3.4vw, 2.5rem);
+    font-weight: 500;
+    line-height: 1.12;
+  }
+
+  .page-sub {
+    font-size: 0.88rem;
+    color: var(--ink-600);
+    margin-top: 0.35rem;
+  }
+
+  /* Option & Filter Chips */
+  .chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+  }
+
+  .chip-btn {
+    padding: 0.48rem 1.05rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    background: var(--bg-white);
+    border: 1px solid var(--border-sage);
+    color: var(--ink-600);
+  }
+
+  .chip-btn:hover {
+    border-color: var(--sage-600);
+    color: var(--ink-900);
+  }
+
+  .chip-btn.active {
+    background: var(--ink-800);
+    border-color: var(--ink-800);
+    color: #FFFFFF;
+  }
+
+  /* Selection Cards (Step 2) */
+  .select-card {
+    padding: 1.35rem;
+    border-radius: 16px;
+    border: 1.5px solid var(--border-sage);
+    background: var(--bg-white);
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 0.95rem;
+  }
+
+  .select-card:hover {
+    border-color: var(--sage-600);
+  }
+
+  .select-card.active {
+    border-color: var(--ink-800);
+    background: var(--bg-subtle);
+    box-shadow: 0 0 0 1px var(--ink-800);
+  }
+
+  .select-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    background: var(--bg-sage-tint);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  .mode-card {
+    padding: 1.5rem;
+    text-align: left;
+    border: 1.5px solid var(--border-sage);
+  }
+
+  .mode-card.active {
+    border-color: var(--ink-800);
+    background: var(--bg-subtle);
+    box-shadow: 0 0 0 1px var(--ink-800);
+  }
+
+  .pill-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.22rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+  }
+
+  .pill-sage {
+    background: var(--bg-sage-tint);
+    color: var(--sage-700);
+    border: 1px solid var(--sage-200);
+  }
+
+  .pill-ink {
+    background: var(--ink-800);
+    color: #FFFFFF;
+  }
+
+  .pill-vacant {
+    background: var(--emerald-soft);
+    color: var(--emerald-dark);
+    border: 1px solid var(--emerald-border);
+  }
+
+  .pill-booked {
+    background: var(--rose-soft);
+    color: var(--rose-dark);
+    border: 1px solid var(--rose-border);
+  }
+
+  .pill-amber {
+    background: var(--amber-soft);
+    color: var(--amber-dark);
+    border: 1px solid var(--amber-border);
+  }
+
+  /* Building & Floor Cards (Step 3) */
+  .instruction-banner {
+    background: var(--bg-mist);
+    border: 1px solid var(--border-sage);
+    border-radius: 16px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.85rem;
+  }
+
+  .step-badge-circle {
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    background: var(--ink-800);
+    color: #FFFFFF;
+    font-size: 0.76rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .building-card {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    border: 1.5px solid var(--border-sage);
+  }
+
+  .building-card.active {
+    border-color: var(--ink-800);
+    box-shadow: 0 0 0 1px var(--ink-800), 0 14px 32px rgba(20, 54, 43, 0.08);
+  }
+
+  .building-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.85rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #E9EFEA;
+    margin-bottom: 1rem;
+  }
+
+  .hours-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.65rem;
+    padding: 0.32rem 0.75rem;
+    border-radius: 999px;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-sage);
+    font-size: 0.72rem;
+    color: var(--ink-600);
+  }
+
+  .floor-stack {
+    margin-top: auto;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-sage);
+    border-radius: 14px;
+    padding: 0.85rem;
+  }
+
+  .floor-stack-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-500);
+    margin-bottom: 0.6rem;
+    padding: 0 0.25rem;
+  }
+
+  .floor-btn {
+    width: 100%;
+    padding: 0.75rem 0.85rem;
+    border-radius: 12px;
+    background: var(--bg-white);
+    border: 1px solid var(--border-sage);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    text-align: left;
+  }
+
+  .floor-btn + .floor-btn {
+    margin-top: 0.5rem;
+  }
+
+  .floor-btn:hover {
+    transform: translateX(3px);
+    border-color: var(--sage-600);
+    box-shadow: 0 6px 14px rgba(19, 42, 34, 0.06);
+  }
+
+  .floor-btn.active {
+    background: var(--bg-sage-tint);
+    border-color: var(--ink-800);
+  }
+
+  .floor-circle {
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    background: var(--bg-mist);
+    color: var(--ink-900);
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .floor-btn.active .floor-circle {
+    background: var(--ink-800);
+    color: #FFFFFF;
+  }
+
+  /* KPI Cards */
+  .kpi-card {
+    padding: 1.1rem 1.2rem;
+  }
+
+  .kpi-label {
+    font-size: 0.75rem;
+    color: var(--ink-500);
+  }
+
+  .kpi-val {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1.15;
+    margin-top: 0.25rem;
+  }
+
+  /* Space Selector Tabs */
+  .space-tab {
+    padding: 0.65rem 1rem;
+    border-radius: 14px;
+    border: 1.5px solid var(--border-sage);
+    background: var(--bg-white);
+    text-align: left;
+  }
+
+  .space-tab:hover {
+    border-color: var(--sage-600);
+  }
+
+  .space-tab.active {
+    background: var(--ink-800);
+    border-color: var(--ink-800);
+    color: #FFFFFF;
+  }
+
+  .table-zone {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-sage);
+    border-radius: 14px;
+    padding: 1rem;
+  }
+
+  /* Two-Column Layouts (Details, Books, Profile) */
+  .split-12 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  @media (min-width: 1024px) {
+    .split-12.ratio-7-5 {
+      grid-template-columns: 7fr 5fr;
+    }
+    .split-12.ratio-5-7 {
+      grid-template-columns: 5fr 7fr;
+    }
+    .split-12.ratio-8-4 {
+      grid-template-columns: 8fr 4fr;
+    }
+  }
+
+  .slot-btn {
+    width: 100%;
+    padding: 0.7rem 0.95rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-sage);
+    background: var(--bg-white);
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--ink-700);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+  }
+
+  .slot-btn:hover {
+    border-color: var(--sage-600);
+    color: var(--ink-900);
+  }
+
+  .slot-btn.active {
+    background: var(--ink-800);
+    border-color: var(--ink-800);
+    color: #FFFFFF;
+    font-weight: 600;
+  }
+
+  /* Tables */
+  .table-wrap {
+    overflow-x: auto;
+  }
+
+  .data-table {
+    width: 100%;
+    min-width: 780px;
+    border-collapse: collapse;
+    text-align: left;
+  }
+
+  .data-table th {
+    padding: 0.65rem 0.75rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-500);
+    border-bottom: 1px solid var(--border-sage);
+  }
+
+  .data-table td {
+    padding: 0.9rem 0.75rem;
+    font-size: 0.78rem;
+    border-bottom: 1px solid #E9EFEA;
+    vertical-align: middle;
+  }
+
+  .data-table tr:hover td {
+    background: var(--bg-subtle);
+  }
+
+  /* Forms & Inputs */
+  .field-input, .field-select {
+    width: 100%;
+    padding: 0.58rem 0.85rem;
+    border-radius: 12px;
+    background: var(--bg-white);
+    border: 1px solid var(--border-sage);
+    font-size: 0.8rem;
+    color: var(--ink-900);
+    outline: none;
+  }
+
+  .field-input:focus, .field-select:focus {
+    border-color: var(--sage-600);
+    box-shadow: 0 0 0 3px var(--bg-sage-tint);
+  }
+
+  /* Toggle Switch */
+  .switch-track {
+    width: 44px;
+    height: 24px;
+    border-radius: 999px;
+    position: relative;
+    background: #C8D5CE;
+    flex-shrink: 0;
+  }
+
+  .switch-track.on {
+    background: var(--ink-800);
+  }
+
+  .switch-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    background: #FFFFFF;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    box-shadow: 0 1px 4px rgba(10, 28, 22, 0.25);
+    transition: transform 0.22s ease;
+  }
+
+  .switch-track.on .switch-thumb {
+    transform: translateX(20px);
+  }
+
+  /* Calendar */
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.35rem;
+    text-align: center;
+  }
+
+  .cal-day-btn {
+    padding: 0.45rem 0.2rem;
+    border-radius: 11px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--ink-900);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cal-day-btn:hover {
+    background: var(--bg-mist);
+  }
+
+  .cal-day-btn.today {
+    background: var(--bg-sage-tint);
+    color: var(--sage-700);
+  }
+
+  .cal-day-btn.selected {
+    background: var(--ink-800);
+    color: #FFFFFF;
+  }
+
+  .cal-dots {
+    display: flex;
+    gap: 3px;
+    height: 6px;
+    margin-top: 3px;
+  }
+
+  .cal-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+  }
+
+  /* Profile ID Card */
+  .id-card-dark {
+    border-radius: 22px;
+    padding: 1.5rem;
+    background: linear-gradient(145deg, #0E261E 0%, #14362B 60%, #215240 100%);
+    color: #FFFFFF;
+    box-shadow: 0 16px 36px rgba(14, 38, 30, 0.22);
+  }
+
+  /* Mobile Bottom Nav */
+  .mobile-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    background: rgba(244, 247, 245, 0.96);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--border-sage);
+    padding: 0.4rem 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  @media (min-width: 1024px) {
+    .mobile-nav {
+      display: none;
+    }
+  }
+
+  .mobile-nav-btn {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 0.3rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--ink-600);
+  }
+
+  .mobile-nav-btn.active {
+    background: var(--ink-800);
+    color: #FFFFFF;
+  }
+
+  /* Modal & Toast */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: rgba(10, 28, 22, 0.52);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .modal-box {
+    width: 100%;
+    max-width: 440px;
+    padding: 1.5rem;
+  }
+
+  .toast-stack {
+    position: fixed;
+    top: 80px;
+    right: 1rem;
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    max-width: 340px;
+    pointer-events: none;
+  }
+
+  .toast-item {
+    pointer-events: auto;
+    background: var(--bg-white);
+    border: 1px solid var(--border-sage);
+    border-left: 4px solid var(--sage-600);
+    border-radius: 14px;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 12px 28px rgba(10, 28, 22, 0.14);
+  }
+
+  .toast-item.green { border-left-color: var(--emerald-ink); }
+  .toast-item.amber { border-left-color: var(--amber-ink); }
+  .toast-item.rose { border-left-color: var(--rose-ink); }
+
+  .view-enter {
+    animation: fadeSlide 0.25s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Utility helpers */
+  .flex-between {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+  .stack-sm > * + * { margin-top: 0.55rem; }
+  .stack-md > * + * { margin-top: 1rem; }
+  .stack-lg > * + * { margin-top: 1.35rem; }
+  .muted { color: var(--ink-600); }
+  .subtle { color: var(--ink-500); }
+  .text-xs { font-size: 0.76rem; }
+  .text-sm { font-size: 0.85rem; }
+  .bold { font-weight: 700; }
+  .semibold { font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div id="toast-container" class="toast-stack"></div>
+<div id="modal-root"></div>
+<div id="app-shell" style="flex:1;display:flex;flex-direction:column;"></div>
+
+<script>
+const TODAY = new Date();
+const addDays = (n) => {
+  const d = new Date(TODAY);
+  d.setDate(d.getDate() + n);
+  return d;
+};
+const fmtDate = (d) => d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+const fmtShortDate = (d) => d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
+const fmtTimeNow = () => new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+
+const PROFILES = {
+  student: {
+    role: 'student',
+    roleLabel: 'LPU Student',
+    name: 'Demo Student',
+    initials: 'DS',
+    idNumber: '12214580',
+    department: 'B.Tech Computer Science & Engineering',
+    meta: 'Semester 6 · Hostel BH-4',
+    email: 'student.12214580@lpu.in',
+    defaultMode: 'solo',
+    defaultBuilding: 'cl',
+    defaultNoise: 'Silent'
+  },
+  faculty: {
+    role: 'faculty',
+    roleLabel: 'Faculty / Teacher',
+    name: 'Dr. Ananya Sharma',
+    initials: 'AS',
+    idNumber: 'EMP-28419',
+    department: 'School of Computer Science & Engineering',
+    meta: 'Associate Professor · Cabin 34-408',
+    email: 'ananya.28419@lpu.co.in',
+    defaultMode: 'solo',
+    defaultBuilding: 'st',
+    defaultNoise: 'Silent'
+  }
+};
+
+const BUILDINGS = [
+  { id: 'cl', code: '37', tag: 'Main Library', name: 'Central Library', block: 'Block 37', floors: [1, 2, 3], hours: '08:00 AM – 10:00 PM', desc: 'Main multi-floor reading halls, silent carrels, and glass group discussion rooms.' },
+  { id: 'ab', code: '34', tag: 'Academic Core', name: 'Academic Block Lounge', block: 'Block 34', floors: [1, 2], hours: '08:00 AM – 08:00 PM', desc: 'Casual study pods and open tables located between core lecture halls.' },
+  { id: 'ih', code: '38', tag: 'Maker & Collab', name: 'Innovation Hub', block: 'Block 38', floors: [1, 2], hours: '09:00 AM – 09:00 PM', desc: 'Design thinking project pods, maker desks, and team collaboration rooms.' },
+  { id: 'st', code: '55', tag: 'Digital & Research', name: 'Science & Tech Digital Wing', block: 'Block 55', floors: [1, 2, 3], hours: '08:30 AM – 10:00 PM', desc: 'High-speed workstation desks, digital journal terminals, and faculty seminar suites.' }
+];
+
+const RAW_SPACES = [
+  ['sp1', 'cl', 1, 'Reading Hall A', 'solo', 'both', 16, 10, 'Silent', ['High-Speed Wi-Fi', 'Power Sockets', 'AC', 'Lockers', 'Desk Lamp'], 'Long oak tables with individual reading lamps designed for steady exam preparation.'],
+  ['sp2', 'cl', 1, 'Group Discussion Rooms', 'group', 'both', 12, 7, 'Discussion', ['High-Speed Wi-Fi', 'Whiteboard', 'AC', '4K Screen', 'Power Sockets'], 'Glass-walled rooms where teams of 2 to 8 can brainstorm and practice presentations.'],
+  ['sp3', 'cl', 2, 'Silent Study Carrels', 'solo', 'both', 16, 6, 'Silent', ['Power Sockets', 'AC', 'Desk Lamp', 'Lockers', 'High-Speed Wi-Fi'], 'Partitioned private booths crafted for deep focus and research writing.'],
+  ['sp4', 'cl', 2, 'Faculty Research Carrels', 'solo', 'faculty', 8, 5, 'Silent', ['High-Speed Wi-Fi', 'Power Sockets', 'AC', 'Desk Lamp', 'Lockers'], 'Reserved quiet research carrels for LPU faculty grading, publishing, and journal study.'],
+  ['sp5', 'cl', 3, 'Collaboration Zone', 'group', 'both', 16, 11, 'Discussion', ['High-Speed Wi-Fi', 'Whiteboard', 'AC', '4K Screen'], 'Modular team tables with writable walls and wireless casting screens.'],
+  ['sp6', 'cl', 3, 'Skyline Reading Deck', 'solo', 'both', 12, 4, 'Quiet', ['High-Speed Wi-Fi', 'Natural Light', 'Power Sockets', 'AC'], 'Sunlit top-floor reading deck overlooking the campus with ergonomic seating.'],
+
+  ['sp7', 'ab', 1, 'Lounge Study Pods', 'solo', 'both', 12, 8, 'Quiet', ['Power Sockets', 'High-Speed Wi-Fi', 'Natural Light'], 'Acoustic cushioned solo pods ideal for quick study breaks between classes.'],
+  ['sp8', 'ab', 1, 'Open Group Tables', 'group', 'both', 16, 10, 'Discussion', ['High-Speed Wi-Fi', 'Power Sockets', 'Whiteboard', 'AC'], 'Spacious group tables for peer assignment reviews and quick discussions.'],
+  ['sp9', 'ab', 2, 'Quiet Corridor Desks', 'solo', 'both', 12, 4, 'Silent', ['Power Sockets', 'AC', 'High-Speed Wi-Fi'], 'Window-facing individual desks along the quiet upper gallery.'],
+  ['sp10', 'ab', 2, 'Project & Seminar Room', 'group', 'both', 12, 7, 'Discussion', ['4K Screen', 'Whiteboard', 'AC', 'High-Speed Wi-Fi'], 'Enclosed seminar room suited for project mentoring and viva preparation.'],
+
+  ['sp11', 'ih', 1, 'Maker & Coding Desks', 'solo', 'both', 16, 10, 'Quiet', ['High-Speed Wi-Fi', 'Power Sockets', 'AC', 'Desk Lamp'], 'Wide workbenches with surge-protected outlets next to the prototyping labs.'],
+  ['sp12', 'ih', 1, 'Faculty Innovation Bay', 'solo', 'faculty', 8, 6, 'Silent', ['High-Speed Wi-Fi', 'Power Sockets', 'AC', 'Natural Light'], 'Dedicated workspace for faculty mentors and Design Thinking coordinators.'],
+  ['sp13', 'ih', 2, 'Capstone Team Pods', 'group', 'both', 16, 10, 'Discussion', ['4K Screen', 'Whiteboard', 'High-Speed Wi-Fi', 'AC', 'Power Sockets'], 'Collaborative war-rooms tailored for hackathon teams and INT335 projects.'],
+
+  ['sp14', 'st', 1, 'Digital Research Terminals', 'solo', 'both', 16, 11, 'Silent', ['High-Speed Wi-Fi', 'Power Sockets', 'AC', 'Desk Lamp'], 'Workstations configured for digital libraries, IEEE journals, and analytics.'],
+  ['sp15', 'st', 1, 'Data Science Collab Bay', 'group', 'both', 12, 7, 'Discussion', ['4K Screen', 'Whiteboard', 'High-Speed Wi-Fi', 'AC'], 'Cluster tables for coding reviews and collaborative lab assignments.'],
+  ['sp16', 'st', 2, 'E-Library Quiet Zone', 'solo', 'both', 16, 11, 'Silent', ['High-Speed Wi-Fi', 'Power Sockets', 'AC', 'Desk Lamp'], 'Ultra-quiet digital reading hall with ergonomic chairs and USB-C outlets.'],
+  ['sp17', 'st', 2, 'Faculty Seminar Suite', 'group', 'faculty', 12, 8, 'Discussion', ['4K Screen', 'Whiteboard', 'AC', 'High-Speed Wi-Fi'], 'Private seminar suite for faculty meetings, thesis reviews, and research groups.'],
+  ['sp18', 'st', 3, 'Focus Loft Carrels', 'solo', 'both', 12, 4, 'Silent', ['Power Sockets', 'AC', 'Desk Lamp', 'Lockers'], 'High-privacy individual booths on the quiet third-floor loft.'],
+  ['sp19', 'st', 3, 'AI & Robotics Project Pods', 'group', 'both', 12, 8, 'Discussion', ['4K Screen', 'Whiteboard', 'AC', 'High-Speed Wi-Fi'], 'Enclosed top-floor team pods for technical demos and peer tutoring.']
+];
+
+const SPACES = RAW_SPACES.map((row, idx) => {
+  const [id, bld, floor, name, type, audience, total, free, noise, facilities, desc] = row;
+  const zone = String.fromCharCode(65 + (idx % 12));
+  const chairs = Array.from({ length: total }, (_, i) => {
+    const hash = (i * 7 + idx * 5) % total;
+    let status = hash < free ? 'vacant' : 'booked';
+    if (status === 'booked' && i % 7 === 0) status = 'expiring';
+    const num = String(i + 1).padStart(2, '0');
+    return { id: `${id}-c${i + 1}`, code: `${zone}-${num}`, status };
+  });
+  return { id, bld, floor, name, type, audience, total, noise, facilities, desc, chairs };
+});
+
+const INITIAL_BOOKS = [
+  { id: 'bk1', title: 'Introduction to Algorithms (CLRS)', author: 'Cormen, Leiserson, Rivest, Stein', callNo: 'QA76.6 .C662', issuedOffset: -18, dueOffset: -4, finePaid: false },
+  { id: 'bk2', title: 'Design Thinking for Innovation', author: 'Idris Mootee', callNo: 'HD53 .M66', issuedOffset: -12, dueOffset: 2, finePaid: false },
+  { id: 'bk3', title: 'Database System Concepts', author: 'Silberschatz, Korth, Sudarshan', callNo: 'QA76.9 .D3', issuedOffset: -5, dueOffset: 9, finePaid: false },
+  { id: 'bk4', title: 'Computer Networks (Tanenbaum)', author: 'Andrew S. Tanenbaum', callNo: 'TK5105.5 .T36', issuedOffset: -16, dueOffset: -2, finePaid: false },
+  { id: 'bk5', title: 'Artificial Intelligence: A Modern Approach', author: 'Stuart Russell & Peter Norvig', callNo: 'Q335 .R86', issuedOffset: -11, dueOffset: 3, finePaid: false }
+];
+
+const TIME_SLOTS = [
+  'Morning Session: 08:00 AM – 11:00 AM (3 hrs)',
+  'Midday Session: 11:00 AM – 02:00 PM (3 hrs)',
+  'Afternoon Session: 02:00 PM – 05:00 PM (3 hrs)',
+  'Evening Session: 05:00 PM – 08:00 PM (3 hrs)',
+  'Late Evening Session: 08:00 PM – 10:00 PM (2 hrs)'
+];
+
+const FAQS = [
+  { q: 'How do I check vacant chairs on a specific building floor?', a: 'Pick any of the 4 LPU buildings in Step 3 and tap a floor in the stacked elevation. You will enter that floor interior and see green vacant chairs, red occupied chairs, and amber reserved seats.' },
+  { q: 'How are library fines and due reminders calculated?', a: 'Overdue books accrue a sample demo fine of ₹5 per day. You can pay demo fines via UPI, Campus Wallet, or Card inside Books & Reminders, renew eligible books by +7 days, and manage automated alerts.' },
+  { q: 'Can both LPU Students and Faculty use this portal?', a: 'Yes. Use the Student / Faculty segmented toggle in the top header or profile page. Faculty mode unlocks dedicated Faculty Research Carrels and Seminar Suites in addition to general halls.' },
+  { q: 'Is the occupancy and book data live?', a: 'All seat counts, operating hours, issued books, fines, and timestamps are clearly labeled Sample / Demo Data built specifically for our INT335 Design Thinking CP5 usability testing.' }
+];
+
+const CP5_TASKS = [
+  { id: 't1', text: 'Find a silent solo seat in Central Library (Block 37), select a vacant green chair, and confirm your digital pass.' },
+  { id: 't2', text: 'Book a group study space for 4 people in Innovation Hub (Block 38) for an afternoon study session time slot.' },
+  { id: 't3', text: 'Open Books & Reminders, inspect overdue books, pay a demo fine, and renew an eligible book by +7 days.' },
+  { id: 't4', text: 'Switch to Faculty role, inspect Science & Tech Digital Wing (Block 55), and check the Digital ID Profile.' }
+];
+
+const STATE = {
+  screen: 'home',
+  role: 'student',
+  mode: 'solo',
+  noise: 'Any',
+  groupSize: 4,
+  buildingId: 'cl',
+  floor: 1,
+  floorFilter: 'all',
+  activeSpaceId: 'sp1',
+  selectedChair: null,
+  timeSlot: TIME_SLOTS[2],
+  lastRefreshed: fmtTimeNow(),
+  openFaq: 0,
+  bookings: [],
+  lastPass: null,
+  books: INITIAL_BOOKS.map(b => ({ ...b })),
+  customReminders: [
+    { id: 'rem-init-1', title: 'Bring LPU ID card for Reading Hall A locker key', category: 'Study Session', when: fmtShortDate(TODAY) + ', 02:00 PM', done: false }
+  ],
+  dismissedAutoIds: [],
+  channels: { whatsapp: true, email: true, push: false },
+  selectedCalDay: TODAY.getDate(),
+  paymentModalBookId: null,
+  paymentMethod: 'UPI',
+  completedTasks: [],
+  searchQuery: ''
+};
+
+const getProfile = () => PROFILES[STATE.role];
+const getBuilding = (id) => BUILDINGS.find(b => b.id === id) || BUILDINGS[0];
+const getSpace = (id) => SPACES.find(s => s.id === id) || SPACES[0];
+const accessibleSpaces = (list) => list.filter(s => STATE.role === 'faculty' || s.audience === 'both');
+const countVacant = (sp) => sp.chairs.filter(c => c.status === 'vacant').length;
+const countBooked = (sp) => sp.chairs.filter(c => c.status !== 'vacant').length;
+const sumBy = (arr, fn) => arr.reduce((acc, item) => acc + fn(item), 0);
+
+function spaceMatchesPreference(sp) {
+  if (STATE.mode === 'solo') {
+    if (sp.type !== 'solo') return false;
+    return STATE.noise === 'Any' || sp.noise === STATE.noise;
+  }
+  return sp.type === 'group' && countVacant(sp) >= Math.min(STATE.groupSize, sp.total);
+}
+
+function getBookFine(book) {
+  if (book.finePaid || book.dueOffset >= 0) return 0;
+  return Math.abs(book.dueOffset) * 5;
+}
+
+function getBookStatus(book) {
+  if (book.dueOffset < 0 && !book.finePaid) return { label: 'Overdue', key: 'overdue', cls: 'pill-booked' };
+  if (book.dueOffset < 0 && book.finePaid) return { label: 'Fine Paid', key: 'paid', cls: 'pill-sage' };
+  if (book.dueOffset <= 3) return { label: 'Due Soon', key: 'soon', cls: 'pill-amber' };
+  return { label: 'On Time', key: 'ok', cls: 'pill-vacant' };
+}
+
+function getAllReminders() {
+  const auto = [];
+  STATE.books.forEach(b => {
+    const fine = getBookFine(b);
+    if (b.dueOffset < 0 && !b.finePaid) {
+      const id = `auto-ov-${b.id}`;
+      if (!STATE.dismissedAutoIds.includes(id)) {
+        const dCount = Math.abs(b.dueOffset);
+        auto.push({ id, auto: true, urgent: 'overdue', category: 'Fine Payment', title: `${b.title} is overdue by ${dCount} ${dCount === 1 ? 'day' : 'days'} (Fine ₹${fine})`, when: `Due ${fmtShortDate(addDays(b.dueOffset))}` });
+      }
+    } else if (b.dueOffset >= 0 && b.dueOffset <= 3) {
+      const id = `auto-soon-${b.id}`;
+      if (!STATE.dismissedAutoIds.includes(id)) {
+        auto.push({ id, auto: true, urgent: 'soon', category: 'Book Due', title: `${b.title} is due ${b.dueOffset === 0 ? 'today' : 'in ' + b.dueOffset + (b.dueOffset === 1 ? ' day' : ' days')}`, when: `Due ${fmtShortDate(addDays(b.dueOffset))}` });
+      }
+    }
+  });
+  STATE.bookings.forEach(bk => {
+    const id = `auto-bk-${bk.bookingId}`;
+    if (!STATE.dismissedAutoIds.includes(id)) {
+      auto.push({ id, auto: true, urgent: 'booking', category: 'Study Session', title: `Seat ${bk.chairCode} reserved at ${bk.spaceName} (${bk.buildingName}, Floor ${bk.floor})`, when: bk.slot });
+    }
+  });
+  const custom = STATE.customReminders.filter(r => !r.done).map(r => ({ ...r, auto: false, urgent: 'custom' }));
+  return [...auto, ...custom];
+}
+
+function getUrgentBadgeCount() {
+  const overdueBooks = STATE.books.filter(b => b.dueOffset < 0 && !b.finePaid).length;
+  const dueSoonBooks = STATE.books.filter(b => b.dueOffset >= 0 && b.dueOffset <= 3).length;
+  return overdueBooks + dueSoonBooks;
+}
+
+function showToast(title, subtitle = '', tone = 'sage') {
+  const container = document.getElementById('toast-container');
+  const el = document.createElement('div');
+  el.className = `toast-item ${tone} view-enter`;
+  el.innerHTML = `<div class="bold" style="font-size:0.84rem;color:var(--ink-900);">${title}</div>${subtitle ? `<div class="text-xs muted" style="margin-top:2px;">${subtitle}</div>` : ''}`;
+  container.appendChild(el);
+  setTimeout(() => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(-8px)';
+    setTimeout(() => el.remove(), 240);
+  }, 3400);
+}
+
+function chairSvg(status) {
+  return `
+    <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M6 6h20" stroke-linecap="round" stroke-width="2.2" opacity="0.45"/>
+      <rect x="8" y="11" width="16" height="11" rx="3.5" fill="currentColor" fill-opacity="0.16"/>
+      <path d="M7 25c3 2.5 15 2.5 18 0" stroke-linecap="round" stroke-width="2.3"/>
+      <path d="M6.5 13v6M25.5 13v6" stroke-linecap="round"/>
+      ${status === 'booked' ? '<path d="M13 14l6 5M19 14l-6 5" stroke-width="2" stroke-linecap="round"/>' : ''}
+      ${status === 'selected' ? '<path d="M12.5 16.5l2.5 2.5 5-5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>' : ''}
+      ${status === 'expiring' ? '<circle cx="16" cy="16.5" r="2.2" fill="currentColor"/>' : ''}
+    </svg>
+  `;
+}
+
+function qrSvg(size = 84) {
+  return `
+    <svg width="${size}" height="${size}" viewBox="0 0 40 40" fill="currentColor">
+      <path d="M2 2h12v12H2V2zm2.5 2.5v7h7v-7h-7zM6.5 6.5h3v3h-3v-3zM26 2h12v12H26V2zm2.5 2.5v7h7v-7h-7zm2 2h3v3h-3v-3zM2 26h12v12H2V26zm2.5 2.5v7h7v-7h-7zm2 2h3v3h-3v-3zM17 3h3v3h-3V3zm4 0h2v5h-2V3zm-4 6h5v2h-5V9zm-2 4h3v4h-3v-4zm5 2h4v3h-4v-3zm-17 3h5v3H3v-3zm7 0h3v5h-3v-5zm5 2h4v4h-4v-4zm6-1h5v3h-5v-3zm7-2h4v5h-4v-5zm-12 7h3v5h-3v-5zm5 1h4v3h-4v-3zm6-1h4v4h-4v-4zm5 2h3v6h-3v-6zm-15 6h5v3h-5v-3zm7 0h4v4h-4v-4zm5 2h4v2h-4v-2z"/>
+    </svg>
+  `;
+}
+
+function facilityIcon(name) {
+  const icons = {
+    'High-Speed Wi-Fi': '📶',
+    'Power Sockets': '🔌',
+    'AC': '❄️',
+    'Lockers': '🔒',
+    'Whiteboard': '📝',
+    '4K Screen': '🖥️',
+    'Desk Lamp': '💡',
+    'Natural Light': '☀️'
+  };
+  return icons[name] || '✓';
+}
+
+function demoNoticeBar(extra = '') {
+  return `
+    <div class="demo-bar">
+      <div class="demo-bar-left">
+        <span class="pulse-dot"></span>
+        <span><strong style="color:var(--ink-900);">Demo Data · Sample LPU Prototype</strong> — Snapshot updated at ${STATE.lastRefreshed} <span class="subtle">(Not live real-time occupancy)</span></span>
+      </div>
+      ${extra}
+    </div>
+  `;
+}
+
+function renderHeader() {
+  const prof = getProfile();
+  const badge = getUrgentBadgeCount();
+  const isFlowScreen = ['preference', 'location', 'occupancy', 'details', 'final'].includes(STATE.screen);
+  const navItems = [
+    { id: 'home', label: 'Overview', active: STATE.screen === 'home' },
+    { id: 'preference', label: 'Find a Seat', active: isFlowScreen },
+    { id: 'books', label: 'Books & Reminders', active: STATE.screen === 'books', badge },
+    { id: 'profile', label: 'My Profile & ID', active: STATE.screen === 'profile' },
+    { id: 'flow', label: 'CP5 Flow', active: STATE.screen === 'flow' }
+  ];
+
+  return `
+    <header class="site-header">
+      <div class="container header-inner">
+        <button data-go="home" class="brand-btn">
+          <span class="brand-dot"></span>
+          <span class="brand-title">A Seat to Study <span class="brand-sub">· LPU</span></span>
+        </button>
+
+        <nav class="top-nav" aria-label="Main navigation">
+          ${navItems.map(it => `
+            <button data-go="${it.id}" class="nav-link ${it.active ? 'active' : ''}">
+              <span>${it.label}</span>
+              ${it.badge > 0 ? `<span class="badge-count">${it.badge}</span>` : ''}
+            </button>
+          `).join('')}
+        </nav>
+
+        <div class="header-actions">
+          <form id="quick-search-form" class="search-form">
+            <span class="search-icon">⌕</span>
+            <input id="quick-search-input" class="search-input" type="search" value="${STATE.searchQuery}" placeholder="Search space or book…">
+          </form>
+
+          <div class="role-switch" role="group" aria-label="Role selector">
+            <button data-act="set-role" data-role="student" class="role-btn ${STATE.role === 'student' ? 'active' : ''}">Student</button>
+            <button data-act="set-role" data-role="faculty" class="role-btn ${STATE.role === 'faculty' ? 'active' : ''}">Faculty</button>
+          </div>
+
+          <button data-go="books" title="Books, Fines & Reminders" class="icon-pill-btn">
+            <span>🔔</span>
+            ${badge > 0 ? `<span class="badge-count" style="position:absolute;top:-4px;right:-4px;">${badge}</span>` : ''}
+          </button>
+
+          <button data-go="profile" title="Digital Campus Profile & ID" class="profile-pill">
+            <span class="avatar-mini">${prof.initials}</span>
+            <span>${prof.name.split(' ')[0]}</span>
+          </button>
+
+          <button data-go="preference" class="btn-primary header-cta">
+            <span>Find a Seat</span>
+            <span>→</span>
+          </button>
+        </div>
+      </div>
+    </header>
+  `;
+}
+
+function renderMobileBottomNav() {
+  const badge = getUrgentBadgeCount();
+  const isFlowScreen = ['preference', 'location', 'occupancy', 'details', 'final'].includes(STATE.screen);
+  const items = [
+    { id: 'home', label: 'Overview', icon: '⌂', active: STATE.screen === 'home' },
+    { id: 'preference', label: 'Find Seat', icon: '🪑', active: isFlowScreen },
+    { id: 'books', label: 'Books', icon: '📚', active: STATE.screen === 'books', badge },
+    { id: 'profile', label: 'Profile', icon: '🪪', active: STATE.screen === 'profile' },
+    { id: 'flow', label: 'CP5 Flow', icon: '🗺️', active: STATE.screen === 'flow' }
+  ];
+  return `
+    <nav class="mobile-nav" aria-label="Mobile navigation">
+      ${items.map(it => `
+        <button data-go="${it.id}" class="mobile-nav-btn ${it.active ? 'active' : ''}">
+          <span style="font-size:0.95rem;line-height:1;">${it.icon}</span>
+          <span>${it.label}</span>
+          ${it.badge > 0 ? `<span class="badge-count" style="position:absolute;top:-3px;right:0;">${it.badge}</span>` : ''}
+        </button>
+      `).join('')}
+    </nav>
+  `;
+}
+
+function renderStepper(currentStep) {
+  const steps = [
+    { n: '01', step: 1, id: 'home', label: 'Overview' },
+    { n: '02', step: 2, id: 'preference', label: 'Preferences' },
+    { n: '03', step: 3, id: 'location', label: 'Building & Floor' },
+    { n: '04', step: 4, id: 'occupancy', label: 'Chair Matrix' },
+    { n: '05', step: 5, id: 'details', label: 'Space Details' },
+    { n: '06', step: 6, id: 'final', label: 'Final Pass' }
+  ];
+  return `
+    <div class="card stepper-card">
+      <div class="stepper-row">
+        ${steps.map((st, idx) => {
+          const cls = st.step === currentStep ? 'current' : st.step < currentStep ? 'done' : '';
+          return `
+            <button data-go="${st.id}" class="step-btn ${cls}">
+              <span class="step-num">${st.step < currentStep ? '✓' : st.n}</span>
+              <span class="step-text">${st.label}</span>
+            </button>
+            ${idx < steps.length - 1 ? `<div class="step-line ${st.step < currentStep ? 'done' : ''}"></div>` : ''}
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
+const VIEWS = {
+  home() {
+    const visible = accessibleSpaces(SPACES);
+    const totalSeats = sumBy(visible, s => s.total);
+    const totalFree = sumBy(visible, countVacant);
+    const pendingFine = sumBy(STATE.books, getBookFine);
+    const sampleChairs = SPACES[0].chairs.slice(0, 8);
+
+    return `
+      <section class="hero-section">
+        <div class="container view-enter">
+          <div class="hero-grid">
+            <div>
+              <div class="eyebrow-pill">
+                <span class="pulse-dot"></span>
+                <span>LPU Campus Study Space &amp; Library Portal</span>
+              </div>
+
+              <h1 class="hero-title">Find Your Perfect Study Space.</h1>
+
+              <p class="hero-lead">
+                Locate available solo or group study spaces across 4 Lovely Professional University campus buildings and inspect sample seat occupancy before walking over.
+              </p>
+
+              <div class="hero-cta-row">
+                <button data-go="preference" class="btn-primary">
+                  <span>Start Finding a Study Space</span>
+                  <span>→</span>
+                </button>
+                <button data-go="location" class="btn-secondary">
+                  Browse Buildings &amp; Floors
+                </button>
+                <button data-go="books" class="btn-secondary">
+                  Books &amp; Reminders ${pendingFine > 0 ? `(₹${pendingFine} due)` : ''}
+                </button>
+              </div>
+
+              <div class="quick-steps-grid">
+                <div>
+                  <div class="quick-step-num">01 · Set Preference</div>
+                  <div class="quick-step-desc">Choose Solo or Group &amp; noise level</div>
+                </div>
+                <div>
+                  <div class="quick-step-num">02 · Building &amp; Floor</div>
+                  <div class="quick-step-desc">Pick a campus block &amp; floor elevation</div>
+                </div>
+                <div>
+                  <div class="quick-step-num">03 · Pick Vacant Chair</div>
+                  <div class="quick-step-desc">Tap a green seat &amp; generate pass</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card snapshot-card">
+              <div class="snapshot-head">
+                <span class="snapshot-kicker">Live Campus Snapshot</span>
+                <span class="demo-pill">
+                  <span class="pulse-dot"></span>
+                  <span>Demo Data</span>
+                </span>
+              </div>
+
+              <div class="kv-list">
+                <div class="kv-row">
+                  <span class="kv-label">Institution</span>
+                  <span class="kv-val">Lovely Professional University</span>
+                </div>
+                <div class="kv-row">
+                  <span class="kv-label">Sample Seat Availability</span>
+                  <span class="kv-val vacant-highlight">${totalFree} of ${totalSeats} Seats Vacant</span>
+                </div>
+                <div class="kv-row">
+                  <span class="kv-label">Campus Field Sites</span>
+                  <span class="kv-val">4 Buildings · 10 Floors</span>
+                </div>
+                <div class="kv-row">
+                  <span class="kv-label">Central Library Hours</span>
+                  <span class="kv-val">08:00 AM – 10:00 PM (Sample)</span>
+                </div>
+                <div class="kv-row">
+                  <span class="kv-label">Data Status</span>
+                  <span class="kv-val">Sample Prototype · Not Real-Time</span>
+                </div>
+              </div>
+
+              <div class="preview-box">
+                <div class="preview-box-head">
+                  <span>Reading Hall A · Block 37 Preview</span>
+                  <button data-go="occupancy" class="semibold" style="color:var(--sage-700);">Open Chair Matrix →</button>
+                </div>
+                <div class="chair-grid-4">
+                  ${sampleChairs.map(c => `
+                    <div class="chair-tile ${c.status}" style="pointer-events:none;padding:0.45rem 0.25rem;">
+                      ${chairSvg(c.status)}
+                      <span class="chair-code">${c.code}</span>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <div class="section-header">
+            <span class="eyebrow-label">Guided Workflow</span>
+            <h2 class="section-title">Four steps from campus arrival to a reserved desk.</h2>
+            <p class="section-sub">
+              The finder is structured around clear sequential choices so first-time students and faculty can locate quiet study spaces without hesitation.
+            </p>
+          </div>
+
+          <div class="grid-4">
+            ${[
+              { n: '01', tag: 'Role & Mode', t: 'Study Preferences', d: 'Select LPU Student or Faculty, then choose Solo quiet seating or Group study rooms.', foot: 'Step 02 · Role, Solo/Group & Noise', go: 'preference' },
+              { n: '02', tag: 'Campus Blocks', t: 'Building & Floor', d: 'Compare 4 campus buildings with clear operating hours and pick a floor elevation.', foot: 'Step 03 · 4 Buildings, 10 Floors', go: 'location' },
+              { n: '03', tag: 'Seat Matrix', t: 'Chair Availability', d: 'Inspect the green and red sample chair matrix and select your exact desk number.', foot: 'Step 04 · Interactive SVG Map', go: 'occupancy' },
+              { n: '04', tag: 'Pass & Dues', t: 'QR Pass & Books', d: 'Generate a sample QR desk pass and track issued books, overdue fines, and reminders.', foot: 'Step 06 · Digital Pass & Library', go: 'books' }
+            ].map(s => `
+              <button data-go="${s.go}" class="card card-hover editorial-tile">
+                <div>
+                  <div class="tile-top">
+                    <span class="tile-num">${s.n}</span>
+                    <span class="tile-tag">${s.tag}</span>
+                  </div>
+                  <h3 class="tile-heading">${s.t}</h3>
+                  <p class="tile-desc">${s.d}</p>
+                </div>
+                <div class="tile-foot">${s.foot}</div>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block mist-band">
+        <div class="container">
+          <div class="section-header">
+            <span class="eyebrow-label">Campus Modules</span>
+            <h2 class="section-title">Everything students and faculty need in one place.</h2>
+          </div>
+
+          <div class="grid-4">
+            ${[
+              { n: 'Module A', t: 'Visual Chair Matrix', d: 'Interactive SVG chair layouts showing vacant, occupied, selected, and reserved seats per room.', go: 'occupancy' },
+              { n: 'Module B', t: 'Building & Floor Views', d: 'Click any floor across 4 LPU campus buildings to enter its room-by-room floor layout.', go: 'location' },
+              { n: 'Module C', t: 'Books & Fine Reminders', d: 'Track issued books, renew +7 days, settle ₹5/day overdue demo fines, and view a due calendar.', go: 'books' },
+              { n: 'Module D', t: 'Digital Campus ID Pass', d: 'Instant Student or Faculty QR ID pass with saved study preferences and active bookings.', go: 'profile' }
+            ].map(f => `
+              <button data-go="${f.go}" class="card card-hover editorial-tile">
+                <div>
+                  <span class="eyebrow-label" style="margin-bottom:0.65rem;">${f.n}</span>
+                  <h3 class="tile-heading">${f.t}</h3>
+                  <p class="tile-desc">${f.d}</p>
+                </div>
+                <div class="tile-foot" style="color:var(--ink-900);">Open module →</div>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <div class="faq-wrap">
+            <div style="text-align:center;margin-bottom:2rem;">
+              <span class="eyebrow-label">Common Questions</span>
+              <h2 class="section-title">Frequently Asked Questions</h2>
+            </div>
+
+            <div class="card faq-card">
+              ${FAQS.map((item, idx) => {
+                const open = STATE.openFaq === idx;
+                return `
+                  <div class="faq-item">
+                    <button data-act="toggle-faq" data-idx="${idx}" class="faq-btn ${open ? 'open' : ''}">
+                      <span>${item.q}</span>
+                      <span style="color:var(--sage-600);font-size:1.15rem;font-weight:700;">${open ? '−' : '+'}</span>
+                    </button>
+                    ${open ? `<div class="faq-body view-enter">${item.a}</div>` : ''}
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <div class="container">
+          <div class="footer-grid">
+            <div>
+              <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.65rem;">
+                <span class="pulse-dot" style="background:#56A88A;"></span>
+                <span class="bold" style="color:#FFFFFF;font-size:0.9rem;">A Seat to Study · LPU</span>
+              </div>
+              <p class="text-xs" style="color:#9EB3A8;line-height:1.6;">
+                INT335 Design Thinking CP5 Prototype for Lovely Professional University students and faculty.
+              </p>
+            </div>
+            <div>
+              <h4 class="footer-h">Navigation</h4>
+              <div class="footer-links">
+                <button data-go="preference" class="footer-link">Find a Seat</button>
+                <button data-go="books" class="footer-link">Books &amp; Reminders</button>
+                <button data-go="profile" class="footer-link">Digital Profile &amp; ID</button>
+                <button data-go="flow" class="footer-link">User Flow &amp; CP5 Tasks</button>
+              </div>
+            </div>
+            <div>
+              <h4 class="footer-h">Campus Blocks</h4>
+              <div class="footer-links">
+                ${BUILDINGS.map(b => `<button data-act="jump-bld" data-bld="${b.id}" class="footer-link">${b.name} (${b.block})</button>`).join('')}
+              </div>
+            </div>
+            <div>
+              <h4 class="footer-h">Demo Notice</h4>
+              <p class="text-xs" style="color:#9EB3A8;line-height:1.6;">
+                All occupancy, seat status, operating hours, book due dates, and fine calculations are sample demo data for usability testing (not live real-time data).
+              </p>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <span>A Seat to Study · Lovely Professional University</span>
+            <span>INT335 Design Thinking CP5 Submission</span>
+          </div>
+        </div>
+      </footer>
+    `;
+  },
+
+  preference() {
+    return `
+      <div class="view-enter narrow-wrap">
+        ${renderStepper(2)}
+        ${demoNoticeBar()}
+
+        <div class="page-head">
+          <div>
+            <span class="eyebrow-label">Step 02 of 06 · Study Preferences</span>
+            <h1 class="page-title">Choose Your Study Preferences</h1>
+            <p class="page-sub">Select your LPU role, study mode, and preferred environment so matching spaces are highlighted.</p>
+          </div>
+        </div>
+
+        <div class="card" style="padding:1.5rem;margin-bottom:1.25rem;">
+          <span class="eyebrow-label" style="color:var(--ink-500);margin-bottom:0.85rem;">1. University Role</span>
+          <div class="grid-2">
+            <button data-act="set-role" data-role="student" class="select-card ${STATE.role === 'student' ? 'active' : ''}">
+              <div class="select-icon">🎓</div>
+              <div>
+                <div class="semibold text-sm" style="color:var(--ink-900);">LPU Student</div>
+                <div class="text-xs muted" style="margin-top:2px;">Reading halls, silent carrels &amp; group study rooms</div>
+              </div>
+            </button>
+            <button data-act="set-role" data-role="faculty" class="select-card ${STATE.role === 'faculty' ? 'active' : ''}">
+              <div class="select-icon">👩‍🏫</div>
+              <div>
+                <div class="semibold text-sm" style="color:var(--ink-900);">Faculty / Teacher</div>
+                <div class="text-xs muted" style="margin-top:2px;">Unlocks Research Carrels &amp; Faculty Seminar Suites</div>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom:1.25rem;">
+          <button data-act="set-mode" data-mode="solo" class="card card-hover mode-card ${STATE.mode === 'solo' ? 'active' : ''}">
+            <div class="flex-between" style="margin-bottom:0.85rem;">
+              <span class="tile-num">Mode 01</span>
+              <span class="pill-tag ${STATE.mode === 'solo' ? 'pill-ink' : 'pill-sage'}">${STATE.mode === 'solo' ? 'Selected' : 'Choose'}</span>
+            </div>
+            <h2 style="font-size:1.45rem;font-weight:500;">Solo Study</h2>
+            <p class="text-xs muted" style="margin-top:0.35rem;line-height:1.55;">Individual quiet desks, partitioned silent carrels, and digital research stations.</p>
+          </button>
+
+          <button data-act="set-mode" data-mode="group" class="card card-hover mode-card ${STATE.mode === 'group' ? 'active' : ''}">
+            <div class="flex-between" style="margin-bottom:0.85rem;">
+              <span class="tile-num">Mode 02</span>
+              <span class="pill-tag ${STATE.mode === 'group' ? 'pill-ink' : 'pill-sage'}">${STATE.mode === 'group' ? 'Selected' : 'Choose'}</span>
+            </div>
+            <h2 style="font-size:1.45rem;font-weight:500;">Group Study</h2>
+            <p class="text-xs muted" style="margin-top:0.35rem;line-height:1.55;">Glass discussion rooms, whiteboard zones, and capstone team pods.</p>
+          </button>
+        </div>
+
+        <div class="card" style="padding:1.5rem;margin-bottom:1.5rem;">
+          ${STATE.mode === 'solo' ? `
+            <span class="eyebrow-label" style="color:var(--ink-500);margin-bottom:0.85rem;">3. Preferred Noise Level</span>
+            <div class="chip-row">
+              ${['Any', 'Silent', 'Quiet'].map(n => `
+                <button data-act="set-noise" data-val="${n}" class="chip-btn ${STATE.noise === n ? 'active' : ''}">${n}</button>
+              `).join('')}
+            </div>
+          ` : `
+            <span class="eyebrow-label" style="color:var(--ink-500);margin-bottom:0.85rem;">3. Group Size</span>
+            <div class="chip-row">
+              ${[2, 4, 6, 8].map(sz => `
+                <button data-act="set-size" data-val="${sz}" class="chip-btn ${STATE.groupSize === sz ? 'active' : ''}">${sz} People</button>
+              `).join('')}
+            </div>
+          `}
+          ${STATE.role === 'faculty' ? `<div style="margin-top:1rem;padding:0.75rem 1rem;border-radius:12px;background:var(--bg-sage-tint);border:1px solid var(--sage-200);font-size:0.76rem;color:var(--sage-700);">Faculty Mode Active: Dedicated <strong>Faculty Research Carrels</strong> and <strong>Seminar Suites</strong> are unlocked in the floor maps.</div>` : ''}
+        </div>
+
+        <div class="flex-between">
+          <button data-go="home" class="btn-secondary">← Back to Overview</button>
+          <button data-go="location" class="btn-primary">Next: Select Building &amp; Floor →</button>
+        </div>
+      </div>
+    `;
+  },
+
+  location() {
+    const selectedBld = getBuilding(STATE.buildingId);
+    return `
+      <div class="view-enter">
+        ${renderStepper(3)}
+        ${demoNoticeBar(`<button data-act="refresh-demo" class="btn-secondary btn-sm">↻ Refresh Sample Counts</button>`)}
+
+        <div class="page-head">
+          <div>
+            <span class="eyebrow-label">Step 03 of 06 · Building &amp; Floor Selection (${STATE.mode === 'solo' ? 'Solo · ' + STATE.noise : 'Group of ' + STATE.groupSize})</span>
+            <h1 class="page-title">Select a Campus Building &amp; Floor</h1>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+            <button data-go="preference" class="btn-secondary btn-sm">← Change Preferences</button>
+            <button data-go="occupancy" class="btn-primary btn-sm">Open ${selectedBld.name}, Floor ${STATE.floor} →</button>
+          </div>
+        </div>
+
+        <div class="instruction-banner">
+          <div style="display:flex;align-items:center;gap:0.8rem;">
+            <span class="step-badge-circle">03</span>
+            <div>
+              <div class="semibold text-sm" style="color:var(--ink-900);">Select a building, then choose a floor to view available study spaces.</div>
+              <div class="text-xs muted" style="margin-top:2px;">Currently selected: <strong style="color:var(--ink-900);">${selectedBld.name} (${selectedBld.block}) · Floor ${STATE.floor}</strong></div>
+            </div>
+          </div>
+          <div class="chip-row">
+            ${BUILDINGS.map(b => `
+              <button data-act="focus-bld" data-bld="${b.id}" class="chip-btn" style="padding:0.36rem 0.85rem;font-size:0.72rem;${b.id === STATE.buildingId ? 'background:var(--ink-800);color:#FFFFFF;border-color:var(--ink-800);' : ''}">${b.block}</button>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom:1.5rem;">
+          ${BUILDINGS.map((b, bIdx) => {
+            const bSpaces = accessibleSpaces(SPACES.filter(s => s.bld === b.id));
+            const total = sumBy(bSpaces, s => s.total);
+            const vacant = sumBy(bSpaces, countVacant);
+            const booked = total - vacant;
+            const isSelectedBld = b.id === STATE.buildingId;
+            return `
+              <div class="card building-card ${isSelectedBld ? 'active' : ''}">
+                <div class="building-head">
+                  <div>
+                    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:0.45rem;margin-bottom:0.4rem;">
+                      <span class="tile-num" style="font-size:1rem;">0${bIdx + 1}</span>
+                      <span class="pill-tag pill-sage">${b.block} · ${b.tag}</span>
+                      ${isSelectedBld ? `<span class="pill-tag pill-ink">Selected Building</span>` : ''}
+                    </div>
+                    <h2 style="font-size:1.45rem;font-weight:500;">${b.name}</h2>
+                    <p class="text-xs muted" style="margin-top:0.3rem;line-height:1.55;">${b.desc}</p>
+                    <div class="hours-chip">
+                      <span>Building Operating Hours (Sample): <strong style="color:var(--ink-900);">${b.hours}</strong></span>
+                    </div>
+                  </div>
+                  <div style="text-align:right;flex-shrink:0;">
+                    <span class="pill-tag pill-vacant">${vacant} Vacant</span>
+                    <div class="text-xs semibold" style="color:var(--rose-dark);margin-top:0.35rem;">${booked} Occupied</div>
+                  </div>
+                </div>
+
+                <div class="floor-stack">
+                  <div class="floor-stack-label">
+                    <span>Choose a Floor in ${b.block}</span>
+                    <span>${b.floors.length} Floors</span>
+                  </div>
+                  <div>
+                    ${[...b.floors].reverse().map(fl => {
+                      const flSp = bSpaces.filter(s => s.floor === fl);
+                      const flVac = sumBy(flSp, countVacant);
+                      const flTot = sumBy(flSp, s => s.total);
+                      const matchCount = flSp.filter(spaceMatchesPreference).length;
+                      const isSelectedFloor = isSelectedBld && STATE.floor === fl;
+                      return `
+                        <button data-act="enter-floor" data-bld="${b.id}" data-fl="${fl}" class="floor-btn ${isSelectedFloor ? 'active' : ''}">
+                          <div style="display:flex;align-items:center;gap:0.75rem;min-width:0;">
+                            <span class="floor-circle">F${fl}</span>
+                            <div style="min-width:0;">
+                              <div style="display:flex;flex-wrap:wrap;align-items:center;gap:0.4rem;font-size:0.84rem;font-weight:700;color:var(--ink-900);">
+                                <span>Floor ${fl}</span>
+                                ${isSelectedFloor ? `<span class="pill-tag pill-ink" style="font-size:0.65rem;padding:0.15rem 0.55rem;">Selected</span>` : ''}
+                                ${matchCount > 0 ? `<span class="pill-tag pill-sage" style="font-size:0.65rem;padding:0.15rem 0.55rem;">${matchCount} match</span>` : ''}
+                              </div>
+                              <div class="text-xs muted" style="margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${flSp.map(s => s.name).join(' · ')}</div>
+                            </div>
+                          </div>
+                          <div style="text-align:right;flex-shrink:0;">
+                            <div class="text-xs bold" style="color:${flVac > 5 ? 'var(--emerald-dark)' : 'var(--amber-dark)'};">${flVac} of ${flTot} vacant</div>
+                            <div class="text-xs semibold" style="color:var(--sage-700);">View Seats →</div>
+                          </div>
+                        </button>
+                      `;
+                    }).join('')}
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+
+        <div class="flex-between">
+          <button data-go="preference" class="btn-secondary">← Back to Study Preferences</button>
+          <button data-go="occupancy" class="btn-primary">View Floor ${STATE.floor} Seat Availability →</button>
+        </div>
+      </div>
+    `;
+  },
+
+  occupancy() {
+    const bld = getBuilding(STATE.buildingId);
+    const flSpacesAll = accessibleSpaces(SPACES.filter(s => s.bld === bld.id && s.floor === STATE.floor));
+    const flSpacesFiltered = flSpacesAll.filter(sp => {
+      if (STATE.floorFilter === 'match') return spaceMatchesPreference(sp);
+      if (STATE.floorFilter === 'vacant') return countVacant(sp) > 0;
+      return true;
+    });
+    const displaySpaces = flSpacesFiltered.length ? flSpacesFiltered : flSpacesAll;
+    if (!displaySpaces.some(s => s.id === STATE.activeSpaceId) && displaySpaces.length) {
+      STATE.activeSpaceId = displaySpaces[0].id;
+    }
+    const activeSp = getSpace(STATE.activeSpaceId);
+
+    const flTotal = sumBy(flSpacesAll, s => s.total);
+    const flVacant = sumBy(flSpacesAll, countVacant);
+    const flBooked = flTotal - flVacant;
+    const matchCount = flSpacesAll.filter(spaceMatchesPreference).length;
+
+    return `
+      <div class="view-enter">
+        ${renderStepper(4)}
+
+        <div class="card" style="padding:1.1rem 1.25rem;margin-bottom:1.25rem;">
+          <div class="flex-between" style="padding-bottom:0.85rem;border-bottom:1px solid #E9EFEA;margin-bottom:0.85rem;">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:0.5rem;font-size:0.78rem;">
+              <button data-go="location" class="btn-secondary btn-sm">← Change Building / Floor</button>
+              <span class="subtle">›</span>
+              <strong style="color:var(--ink-900);">${bld.name} (${bld.block})</strong>
+              <span class="subtle">›</span>
+              <span class="pill-tag pill-sage">Floor ${STATE.floor}</span>
+            </div>
+            <div class="text-xs muted">
+              Building Operating Hours (Sample): <strong style="color:var(--ink-900);">${bld.hours}</strong>
+            </div>
+          </div>
+
+          <div class="flex-between">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:0.4rem;">
+              <span class="eyebrow-label" style="margin:0 0.25rem 0 0;color:var(--ink-500);">Building:</span>
+              ${BUILDINGS.map(b => `
+                <button data-act="switch-bld-quick" data-bld="${b.id}" class="chip-btn" style="padding:0.35rem 0.85rem;font-size:0.74rem;${b.id === bld.id ? 'background:var(--ink-800);color:#FFFFFF;border-color:var(--ink-800);' : ''}">${b.name.split(' ')[0]} (${b.block})</button>
+              `).join('')}
+            </div>
+
+            <div class="role-switch">
+              <span class="text-xs subtle" style="padding:0 0.55rem;font-weight:600;">Floor:</span>
+              ${bld.floors.map(f => `
+                <button data-act="enter-floor" data-bld="${bld.id}" data-fl="${f}" class="role-btn ${f === STATE.floor ? 'active' : ''}">Floor ${f}</button>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+
+        ${demoNoticeBar(`<button data-act="refresh-demo" class="btn-secondary btn-sm">↻ Refresh Sample Counts</button>`)}
+
+        <div class="grid-4" style="margin-bottom:1.25rem;">
+          <div class="card kpi-card">
+            <div class="kpi-label">Total Sample Seats (Floor ${STATE.floor})</div>
+            <div class="kpi-val">${flTotal}</div>
+          </div>
+          <div class="card kpi-card">
+            <div class="kpi-label">Vacant Seats (Sample)</div>
+            <div class="kpi-val" style="color:var(--emerald-dark);">${flVacant}</div>
+          </div>
+          <div class="card kpi-card">
+            <div class="kpi-label">Occupied Seats (Sample)</div>
+            <div class="kpi-val" style="color:var(--rose-dark);">${flBooked}</div>
+          </div>
+          <div class="card kpi-card">
+            <div class="kpi-label">Matching Spaces</div>
+            <div class="kpi-val" style="color:var(--sage-600);">${matchCount} of ${flSpacesAll.length}</div>
+          </div>
+        </div>
+
+        <div class="flex-between" style="margin-bottom:1rem;">
+          <div class="chip-row">
+            ${[
+              ['all', 'All Spaces on Floor ' + STATE.floor],
+              ['match', 'Matching Preference'],
+              ['vacant', 'Vacant Only']
+            ].map(([k, lbl]) => `
+              <button data-act="set-floor-filter" data-val="${k}" class="chip-btn ${STATE.floorFilter === k ? 'active' : ''}">${lbl}</button>
+            `).join('')}
+          </div>
+
+          <div style="display:flex;flex-wrap:wrap;gap:0.45rem;">
+            <span class="pill-tag pill-vacant">● Vacant (Click to Select)</span>
+            <span class="pill-tag pill-booked">● Occupied</span>
+            <span class="pill-tag" style="background:#EFF6FF;color:#1D4ED8;border:1px solid #93C5FD;">● Selected</span>
+            <span class="pill-tag pill-amber">● Reserved</span>
+          </div>
+        </div>
+
+        <span class="eyebrow-label" style="color:var(--ink-500);margin-bottom:0.55rem;">Study Spaces on Floor ${STATE.floor} — Select a Room</span>
+        <div class="chip-row" style="margin-bottom:1.25rem;">
+          ${displaySpaces.map(sp => {
+            const active = sp.id === activeSp.id;
+            return `
+              <button data-act="select-space" data-sp="${sp.id}" class="space-tab ${active ? 'active' : ''}">
+                <div style="display:flex;align-items:center;gap:0.45rem;">
+                  <span class="bold text-sm">${sp.name}</span>
+                  ${sp.audience === 'faculty' ? `<span class="pill-tag pill-sage" style="font-size:0.65rem;padding:0.1rem 0.5rem;">Faculty</span>` : ''}
+                </div>
+                <div class="text-xs" style="margin-top:2px;opacity:0.8;">${sp.type === 'solo' ? 'Solo Study' : 'Group Study'} · ${sp.noise} · ${countVacant(sp)} vacant</div>
+              </button>
+            `;
+          }).join('')}
+        </div>
+
+        <div class="card" style="padding:1.5rem;">
+          <div class="flex-between" style="padding-bottom:1rem;border-bottom:1px solid #E9EFEA;margin-bottom:1.25rem;">
+            <div>
+              <h2 style="font-size:1.5rem;font-weight:500;">${activeSp.name} — Sample Desk &amp; Chair Map</h2>
+              <p class="text-xs muted" style="margin-top:0.25rem;">${activeSp.desc}</p>
+            </div>
+            <div style="display:flex;gap:0.5rem;">
+              <span class="pill-tag pill-vacant">${countVacant(activeSp)} Vacant</span>
+              <span class="pill-tag pill-booked">${countBooked(activeSp)} Occupied</span>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            ${[0, 1].map(tableIdx => {
+              const half = Math.ceil(activeSp.chairs.length / 2);
+              const slice = activeSp.chairs.slice(tableIdx * half, (tableIdx + 1) * half);
+              if (!slice.length) return '';
+              return `
+                <div class="table-zone">
+                  <div class="flex-between" style="margin-bottom:0.75rem;">
+                    <span class="eyebrow-label" style="margin:0;color:var(--ink-500);">Study Table Zone ${tableIdx + 1}</span>
+                    <span class="text-xs semibold" style="color:var(--sage-700);">${slice.filter(c => c.status === 'vacant').length} vacant</span>
+                  </div>
+                  <div class="chair-grid-4" style="background:transparent;border:none;padding:0;">
+                    ${slice.map(ch => {
+                      const isSel = STATE.selectedChair && STATE.selectedChair.chairId === ch.id;
+                      const visual = isSel ? 'selected' : ch.status;
+                      const disabled = ch.status !== 'vacant' && !isSel;
+                      return `
+                        <button type="button" ${disabled ? 'disabled' : `data-act="pick-chair" data-sp="${activeSp.id}" data-ch="${ch.id}" data-code="${ch.code}"`} class="chair-tile ${visual}">
+                          ${chairSvg(visual)}
+                          <span class="chair-code">Seat ${ch.code}</span>
+                        </button>
+                      `;
+                    }).join('')}
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+
+          <div class="flex-between" style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid #E9EFEA;">
+            <div class="text-sm">
+              ${STATE.selectedChair && STATE.selectedChair.spaceId === activeSp.id
+                ? `<span class="muted">Selected Seat:</span> <strong style="padding:0.25rem 0.75rem;border-radius:999px;background:var(--blue-ink);color:#FFFFFF;font-size:0.78rem;margin-left:4px;">Seat ${STATE.selectedChair.code}</strong> <span class="muted" style="margin-left:4px;">in ${activeSp.name}</span>`
+                : `<span class="muted">Click any <strong style="color:var(--emerald-dark);">green vacant chair</strong> to pick your exact seat, then view full space details.</span>`}
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:0.6rem;">
+              <button data-go="location" class="btn-secondary btn-sm">← Change Building / Floor</button>
+              <button data-act="open-details" data-sp="${activeSp.id}" class="btn-primary">
+                Next: Space Details &amp; Study Session →
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  },
+
+  details() {
+    const sp = getSpace(STATE.activeSpaceId);
+    const bld = getBuilding(sp.bld);
+    if (!STATE.selectedChair || STATE.selectedChair.spaceId !== sp.id) {
+      const first = sp.chairs.find(c => c.status === 'vacant');
+      if (first) STATE.selectedChair = { spaceId: sp.id, chairId: first.id, code: first.code };
+    }
+
+    return `
+      <div class="view-enter" style="max-width:1040px;margin:0 auto;">
+        ${renderStepper(5)}
+        ${demoNoticeBar()}
+
+        <div class="page-head">
+          <div>
+            <span class="eyebrow-label">Step 05 of 06 · Study Space Details</span>
+            <h1 class="page-title">${sp.name}</h1>
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:0.5rem;margin-top:0.5rem;font-size:0.84rem;">
+              <strong style="color:var(--ink-900);">${bld.name} (${bld.block}) · Floor ${sp.floor}</strong>
+              <span class="subtle">·</span>
+              <span class="pill-tag pill-sage">Building Operating Hours (Sample): <strong>${bld.hours}</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="split-12 ratio-7-5">
+          <div class="stack-lg">
+            <div class="card" style="padding:1.5rem;">
+              <h2 style="font-size:1.3rem;font-weight:500;margin-bottom:0.5rem;">Environment &amp; Sample Seat Availability</h2>
+              <p class="text-sm muted" style="line-height:1.6;margin-bottom:1rem;">${sp.desc}</p>
+              <div class="grid-2" style="gap:0.75rem;">
+                <div style="padding:0.75rem 1rem;border-radius:12px;background:var(--bg-subtle);border:1px solid var(--border-sage);display:flex;justify-content:space-between;font-size:0.8rem;">
+                  <span class="subtle">Study Mode</span><strong>${sp.type === 'solo' ? 'Solo Study' : 'Group Study'}</strong>
+                </div>
+                <div style="padding:0.75rem 1rem;border-radius:12px;background:var(--bg-subtle);border:1px solid var(--border-sage);display:flex;justify-content:space-between;font-size:0.8rem;">
+                  <span class="subtle">Noise Level</span><strong>${sp.noise}</strong>
+                </div>
+                <div style="padding:0.75rem 1rem;border-radius:12px;background:var(--emerald-soft);border:1px solid var(--emerald-border);display:flex;justify-content:space-between;font-size:0.8rem;color:var(--emerald-dark);">
+                  <span>Vacant Chairs (Sample)</span><strong>${countVacant(sp)} of ${sp.total}</strong>
+                </div>
+                <div style="padding:0.75rem 1rem;border-radius:12px;background:var(--rose-soft);border:1px solid var(--rose-border);display:flex;justify-content:space-between;font-size:0.8rem;color:var(--rose-dark);">
+                  <span>Occupied Chairs (Sample)</span><strong>${countBooked(sp)}</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="card" style="padding:1.5rem;">
+              <h2 style="font-size:1.3rem;font-weight:500;margin-bottom:0.85rem;">Facilities Available in This Space</h2>
+              <div class="grid-3" style="gap:0.65rem;">
+                ${sp.facilities.map(f => `
+                  <div style="padding:0.65rem 0.85rem;border-radius:12px;background:var(--bg-subtle);border:1px solid var(--border-sage);display:flex;align-items:center;gap:0.5rem;font-size:0.78rem;font-weight:600;">
+                    <span>${facilityIcon(f)}</span>
+                    <span>${f}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <div class="card" style="padding:1.5rem;">
+              <div class="flex-between" style="margin-bottom:0.85rem;">
+                <h2 style="font-size:1.3rem;font-weight:500;">Mini Chair Preview (Sample)</h2>
+                <span class="text-xs semibold" style="color:var(--sage-700);">Tap a green chair to switch</span>
+              </div>
+              <div class="chair-grid-4" style="grid-template-columns:repeat(auto-fill,minmax(68px,1fr));background:transparent;border:none;padding:0;">
+                ${sp.chairs.map(ch => {
+                  const isSel = STATE.selectedChair && STATE.selectedChair.chairId === ch.id;
+                  const visual = isSel ? 'selected' : ch.status;
+                  const disabled = ch.status !== 'vacant' && !isSel;
+                  return `
+                    <button type="button" ${disabled ? 'disabled' : `data-act="pick-chair" data-sp="${sp.id}" data-ch="${ch.id}" data-code="${ch.code}"`} class="chair-tile ${visual}" style="padding:0.5rem 0.25rem;">
+                      <span class="chair-code">${ch.code}</span>
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="padding:1.5rem;position:sticky;top:88px;">
+            <div style="padding-bottom:0.85rem;border-bottom:1px solid #E9EFEA;">
+              <h2 style="font-size:1.35rem;font-weight:500;">Select Study Session Time Slot</h2>
+              <p class="text-xs muted" style="margin-top:0.25rem;">Choose your study window within building operating hours (${bld.hours}).</p>
+            </div>
+
+            <div style="margin:1rem 0;padding:0.95rem 1rem;border-radius:14px;background:var(--bg-sage-tint);border:1px solid var(--sage-200);display:flex;align-items:center;justify-content:space-between;">
+              <div>
+                <span class="eyebrow-label" style="margin-bottom:2px;color:var(--sage-700);">Chosen Seat</span>
+                <div class="font-serif" style="font-size:1.55rem;font-weight:500;">${STATE.selectedChair ? 'Seat ' + STATE.selectedChair.code : 'No Vacant Seat'}</div>
+              </div>
+              <div style="text-align:right;font-size:0.78rem;">
+                <div class="bold">${getProfile().name}</div>
+                <div class="muted">${getProfile().idNumber}</div>
+              </div>
+            </div>
+
+            <div class="stack-sm" style="margin-bottom:1.25rem;">
+              ${TIME_SLOTS.map(sl => `
+                <button data-act="set-slot" data-val="${sl}" class="slot-btn ${STATE.timeSlot === sl ? 'active' : ''}">
+                  <span>${sl}</span>
+                  ${STATE.timeSlot === sl ? '<span>✓</span>' : ''}
+                </button>
+              `).join('')}
+            </div>
+
+            <button data-act="proceed-final" class="btn-primary" style="width:100%;margin-bottom:0.65rem;">
+              Generate Digital Seat Pass →
+            </button>
+            <button data-go="occupancy" class="btn-secondary" style="width:100%;">
+              ← Back to Chair Matrix
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  },
+
+  final() {
+    const pass = STATE.lastPass || STATE.bookings[0];
+    if (!pass) {
+      return `
+        <div class="view-enter" style="max-width:560px;margin:0 auto;">
+          ${renderStepper(6)}
+          <div class="card" style="padding:2.25rem;text-align:center;">
+            <div class="tile-num" style="margin-bottom:0.5rem;">Step 06</div>
+            <h2 style="font-size:1.6rem;font-weight:500;margin-bottom:0.5rem;">No Study Space Selected Yet</h2>
+            <p class="text-sm muted" style="margin-bottom:1.25rem;">Pick a building floor and select a vacant chair to generate your sample Digital Seat Pass.</p>
+            <button data-go="location" class="btn-primary">Explore Campus Buildings →</button>
+          </div>
+        </div>
+      `;
+    }
+
+    const isSaved = STATE.bookings.some(b => b.bookingId === pass.bookingId);
+    const bld = getBuilding(pass.buildingId);
+
+    return `
+      <div class="view-enter narrow-wrap">
+        ${renderStepper(6)}
+        ${demoNoticeBar()}
+
+        <div class="page-head">
+          <div>
+            <span class="eyebrow-label">Step 06 of 06 · ${isSaved ? 'Saved to Your Profile' : 'Ready to Confirm'}</span>
+            <h1 class="page-title">Digital Study-Space Pass (Demo)</h1>
+          </div>
+        </div>
+
+        <div class="card" style="overflow:hidden;margin-bottom:1.5rem;">
+          <div style="background:var(--ink-800);color:#FFFFFF;padding:1.25rem 1.5rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.75rem;">
+            <div>
+              <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.14em;color:#B8CEC3;">LPU Sample Seat Pass · ${pass.bookingId}</div>
+              <div class="font-serif" style="font-size:1.55rem;font-weight:500;color:#FFFFFF;margin-top:2px;">${pass.spaceName} — Seat ${pass.chairCode}</div>
+            </div>
+            <span class="pill-tag" style="background:${isSaved ? 'var(--emerald-ink)' : 'var(--sage-600)'};color:#FFFFFF;">${isSaved ? 'Confirmed & Saved' : 'Pending Confirmation'}</span>
+          </div>
+
+          <div style="padding:1.5rem;" class="split-12 ratio-8-4">
+            <div class="kv-list">
+              <div class="kv-row"><span class="kv-label">Reserved For</span><span class="kv-val">${pass.userName} (${pass.userId})</span></div>
+              <div class="kv-row"><span class="kv-label">Location</span><span class="kv-val">${pass.buildingName} (${pass.block}), Floor ${pass.floor}</span></div>
+              <div class="kv-row"><span class="kv-label">Building Operating Hours (Sample)</span><span class="kv-val">${bld.hours}</span></div>
+              <div class="kv-row"><span class="kv-label">Room &amp; Seat</span><span class="kv-val" style="color:var(--sage-700);">${pass.spaceName} · Seat ${pass.chairCode}</span></div>
+              <div class="kv-row"><span class="kv-label">Selected Study Session</span><span class="kv-val">${pass.slot}</span></div>
+              <div class="kv-row"><span class="kv-label">Noise Level</span><span class="kv-val">${pass.noise}</span></div>
+              <div class="kv-row"><span class="kv-label">Facilities</span><span class="kv-val">${pass.facilities.join(', ')}</span></div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg-subtle);border:1px solid var(--border-sage);border-radius:16px;padding:1.25rem;text-align:center;">
+              <div style="background:#FFFFFF;padding:0.75rem;border-radius:12px;border:1px solid var(--border-sage);color:var(--ink-900);margin-bottom:0.75rem;">
+                ${qrSvg(104)}
+              </div>
+              <div class="bold text-xs">Desk Check-In QR</div>
+              <div class="text-xs subtle" style="margin-top:2px;">${pass.date} · Sample Demo Pass</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;gap:0.75rem;">
+          ${!isSaved ? `<button data-act="save-pass" class="btn-primary">✓ Confirm &amp; Save to My Profile</button>` : ''}
+          <button data-act="add-study-rem" class="btn-sage">Add Study Reminder</button>
+          <button data-act="copy-pass" class="btn-secondary">Copy Details to Share</button>
+          ${isSaved ? `<button data-act="cancel-pass" data-id="${pass.bookingId}" class="btn-danger-soft">Cancel Booking</button>` : ''}
+        </div>
+      </div>
+    `;
+  },
+
+  books() {
+    const overdueCount = STATE.books.filter(b => b.dueOffset < 0 && !b.finePaid).length;
+    const dueSoonCount = STATE.books.filter(b => b.dueOffset >= 0 && b.dueOffset <= 3).length;
+    const totalFines = sumBy(STATE.books, getBookFine);
+    const reminders = getAllReminders();
+
+    const year = TODAY.getFullYear();
+    const month = TODAY.getMonth();
+    const firstWeekday = (new Date(year, month, 1).getDay() + 6) % 7;
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const eventsByDay = {};
+    STATE.books.forEach(b => {
+      const d = addDays(b.dueOffset);
+      if (d.getMonth() === month && d.getFullYear() === year) {
+        const day = d.getDate();
+        if (!eventsByDay[day]) eventsByDay[day] = [];
+        const st = getBookStatus(b);
+        eventsByDay[day].push({
+          color: st.key === 'overdue' ? 'var(--rose-ink)' : st.key === 'soon' ? 'var(--amber-ink)' : 'var(--emerald-ink)',
+          text: `${b.title} (${st.label}${getBookFine(b) > 0 ? ', ₹' + getBookFine(b) : ''})`
+        });
+      }
+    });
+    STATE.bookings.forEach(bk => {
+      const day = TODAY.getDate();
+      if (!eventsByDay[day]) eventsByDay[day] = [];
+      eventsByDay[day].push({ color: 'var(--sage-600)', text: `Seat ${bk.chairCode} at ${bk.spaceName} (${bk.slot})` });
+    });
+
+    const selectedDayEvents = eventsByDay[STATE.selectedCalDay] || [];
+
+    return `
+      <div class="view-enter">
+        ${demoNoticeBar(`<span class="text-xs semibold" style="color:var(--sage-700);">Sample Fine Rate: ₹5 per overdue day</span>`)}
+
+        <div class="page-head">
+          <div>
+            <span class="eyebrow-label">Library Accountability &amp; Alerts · Demo Data</span>
+            <h1 class="page-title">Issued Books, Fines &amp; Smart Reminders</h1>
+          </div>
+          <button data-go="preference" class="btn-primary btn-sm">Find a Study Seat →</button>
+        </div>
+
+        <div class="grid-4" style="margin-bottom:1.5rem;">
+          <div class="card kpi-card">
+            <div class="kpi-label">Books Currently Issued</div>
+            <div class="kpi-val">${STATE.books.length}</div>
+            <div class="text-xs subtle" style="margin-top:4px;">Sample LPU Catalog</div>
+          </div>
+          <div class="card kpi-card">
+            <div class="kpi-label">Overdue Books</div>
+            <div class="kpi-val" style="color:var(--rose-dark);">${overdueCount}</div>
+            <div class="text-xs" style="color:var(--rose-dark);margin-top:4px;">${overdueCount > 0 ? 'Action needed' : 'All clear'}</div>
+          </div>
+          <div class="card kpi-card">
+            <div class="kpi-label">Due Within 3 Days</div>
+            <div class="kpi-val" style="color:var(--amber-dark);">${dueSoonCount}</div>
+            <div class="text-xs" style="color:var(--amber-dark);margin-top:4px;">Renew before due date</div>
+          </div>
+          <div class="card kpi-card">
+            <div class="kpi-label">Total Pending Fines</div>
+            <div class="kpi-val" style="color:${totalFines > 0 ? 'var(--rose-dark)' : 'var(--emerald-dark)'};">₹${totalFines}</div>
+            <div class="text-xs subtle" style="margin-top:4px;">₹5 per day overdue</div>
+          </div>
+        </div>
+
+        <div class="card" style="padding:1.5rem;margin-bottom:1.5rem;overflow:hidden;">
+          <div style="padding-bottom:1rem;border-bottom:1px solid #E9EFEA;margin-bottom:1rem;">
+            <h2 style="font-size:1.45rem;font-weight:500;">Issued Books &amp; Due Dates (Sample Data)</h2>
+            <p class="text-xs muted" style="margin-top:0.25rem;">Renew eligible books by +7 days, settle overdue fines via demo payment, or set instant reminders.</p>
+          </div>
+
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Book &amp; Call Number</th>
+                  <th>Issued Date</th>
+                  <th>Return Due Date</th>
+                  <th>Status</th>
+                  <th>Fine</th>
+                  <th style="text-align:right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${STATE.books.map(b => {
+                  const st = getBookStatus(b);
+                  const fine = getBookFine(b);
+                  const absDays = Math.abs(b.dueOffset);
+                  const daysText = b.dueOffset < 0
+                    ? `${absDays} ${absDays === 1 ? 'day' : 'days'} overdue`
+                    : b.dueOffset === 0
+                      ? 'Due today'
+                      : `${b.dueOffset} ${b.dueOffset === 1 ? 'day' : 'days'} remaining`;
+                  return `
+                    <tr>
+                      <td>
+                        <div class="bold text-sm" style="color:var(--ink-900);">${b.title}</div>
+                        <div class="text-xs muted">${b.author} · <span style="font-family:monospace;color:var(--sage-700);">${b.callNo}</span></div>
+                      </td>
+                      <td class="muted" style="white-space:nowrap;">${fmtShortDate(addDays(b.issuedOffset))}</td>
+                      <td style="white-space:nowrap;">
+                        <div class="bold">${fmtShortDate(addDays(b.dueOffset))}</div>
+                        <div class="text-xs" style="color:${b.dueOffset < 0 ? 'var(--rose-dark)' : 'var(--ink-500)'};">${daysText}</div>
+                      </td>
+                      <td style="white-space:nowrap;">
+                        <span class="pill-tag ${st.cls}">${st.label}</span>
+                      </td>
+                      <td class="bold" style="white-space:nowrap;color:${fine > 0 ? 'var(--rose-dark)' : 'var(--emerald-dark)'};">₹${fine}</td>
+                      <td style="text-align:right;white-space:nowrap;">
+                        <div style="display:inline-flex;align-items:center;gap:0.4rem;">
+                          ${fine > 0
+                            ? `<button data-act="open-pay-modal" data-bk="${b.id}" class="btn-primary btn-sm" style="background:var(--rose-dark);border-color:var(--rose-dark);">Pay Fine (₹${fine})</button>`
+                            : `<button data-act="renew-book" data-bk="${b.id}" class="btn-primary btn-sm">Renew (+7 days)</button>`}
+                          <button data-act="quick-book-rem" data-bk="${b.id}" class="btn-secondary btn-sm" style="padding:0.42rem 0.65rem;" title="Set Reminder">🔔</button>
+                        </div>
+                      </td>
+                    </tr>
+                  `;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="split-12 ratio-7-5">
+          <div class="stack-lg">
+            <div class="card" style="padding:1.5rem;">
+              <div class="flex-between" style="margin-bottom:1rem;">
+                <div>
+                  <h2 style="font-size:1.35rem;font-weight:500;">Smart Reminders &amp; Urgent Alerts</h2>
+                  <p class="text-xs muted">Auto-synced with overdue fines, upcoming dues, and your seat bookings.</p>
+                </div>
+                <span class="pill-tag pill-sage">${reminders.length} Active</span>
+              </div>
+
+              ${reminders.length ? `
+                <div class="stack-sm" style="margin-bottom:1.25rem;">
+                  ${reminders.map(r => {
+                    const dotColor = r.urgent === 'overdue' ? 'var(--rose-ink)' : r.urgent === 'soon' ? 'var(--amber-ink)' : r.urgent === 'booking' ? 'var(--sage-600)' : 'var(--ink-800)';
+                    return `
+                      <div style="padding:0.85rem 1rem;border-radius:14px;background:var(--bg-subtle);border:1px solid var(--border-sage);display:flex;align-items:flex-start;justify-content:space-between;gap:0.75rem;">
+                        <div style="display:flex;align-items:flex-start;gap:0.65rem;">
+                          <span style="width:8px;height:8px;border-radius:999px;margin-top:6px;flex-shrink:0;background:${dotColor};"></span>
+                          <div>
+                            <div class="semibold text-sm">${r.title}</div>
+                            <div class="text-xs subtle" style="margin-top:2px;">${r.category} · ${r.when}</div>
+                          </div>
+                        </div>
+                        <button data-act="dismiss-rem" data-id="${r.id}" data-auto="${r.auto}" class="btn-secondary btn-sm" style="flex-shrink:0;">Mark Done</button>
+                      </div>
+                    `;
+                  }).join('')}
+                </div>
+              ` : `<div style="padding:1.5rem;text-align:center;font-size:0.8rem;color:var(--ink-500);background:var(--bg-subtle);border-radius:14px;margin-bottom:1.25rem;">All reminders completed.</div>`}
+
+              <form id="add-reminder-form" style="padding:1rem;border-radius:16px;background:var(--bg-mist);border:1px solid var(--border-sage);" class="stack-sm">
+                <span class="eyebrow-label" style="color:var(--ink-900);margin:0;">Add Custom Reminder</span>
+                <input id="rem-title" class="field-input" type="text" required placeholder="e.g., Return CLRS textbook before lab...">
+                <div class="grid-2" style="gap:0.6rem;">
+                  <select id="rem-cat" class="field-select">
+                    <option value="Book Due">Book Due</option>
+                    <option value="Fine Payment">Fine Payment</option>
+                    <option value="Study Session">Study Session</option>
+                  </select>
+                  <input id="rem-when" class="field-input" type="datetime-local">
+                </div>
+                <button type="submit" class="btn-primary btn-sm">+ Add Reminder</button>
+              </form>
+            </div>
+
+            <div class="card" style="padding:1.5rem;">
+              <h2 style="font-size:1.35rem;font-weight:500;">Automated Reminder Channels (Demo)</h2>
+              <p class="text-xs muted" style="margin:0.25rem 0 1rem;">Choose how you want LPU Library to notify you before due dates.</p>
+              <div class="stack-sm">
+                ${[
+                  ['whatsapp', 'WhatsApp Due Alerts', 'Instant reminders 48 hours before book expiry & fine receipts'],
+                  ['email', 'LPU Email Digest', 'Weekly summary sent to ' + getProfile().email],
+                  ['push', 'Browser Push Notifications', 'Desktop & mobile alerts for upcoming study session slots']
+                ].map(([key, title, desc]) => {
+                  const on = STATE.channels[key];
+                  return `
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.85rem 1rem;border-radius:14px;background:var(--bg-subtle);border:1px solid var(--border-sage);">
+                      <div>
+                        <div class="bold text-xs">${title}</div>
+                        <div class="text-xs muted">${desc}</div>
+                      </div>
+                      <button type="button" data-act="toggle-channel" data-ch="${key}" class="switch-track ${on ? 'on' : ''}" aria-pressed="${on}">
+                        <span class="switch-thumb"></span>
+                      </button>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="padding:1.5rem;">
+            <div class="flex-between" style="margin-bottom:0.85rem;">
+              <h2 style="font-size:1.35rem;font-weight:500;">${TODAY.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })}</h2>
+              <span class="text-xs semibold" style="color:var(--sage-700);">Click any dotted date</span>
+            </div>
+
+            <div class="cal-grid" style="font-size:0.7rem;font-weight:700;color:var(--ink-500);margin-bottom:0.45rem;">
+              ${['M','T','W','T','F','S','S'].map(d => `<div>${d}</div>`).join('')}
+            </div>
+
+            <div class="cal-grid">
+              ${'<div></div>'.repeat(firstWeekday)}
+              ${Array.from({ length: daysInMonth }, (_, i) => {
+                const day = i + 1;
+                const isToday = day === TODAY.getDate();
+                const isSel = day === STATE.selectedCalDay;
+                const evs = eventsByDay[day] || [];
+                return `
+                  <button data-act="select-cal-day" data-day="${day}" class="cal-day-btn ${isSel ? 'selected' : isToday ? 'today' : ''}">
+                    <span>${day}</span>
+                    <span class="cal-dots">
+                      ${evs.slice(0, 3).map(ev => `<span class="cal-dot" style="background:${isSel ? '#FFFFFF' : ev.color};"></span>`).join('')}
+                    </span>
+                  </button>
+                `;
+              }).join('')}
+            </div>
+
+            <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #E9EFEA;">
+              <div class="bold text-xs" style="margin-bottom:0.5rem;">Events on ${STATE.selectedCalDay} ${TODAY.toLocaleDateString('en-GB', { month: 'short' })}</div>
+              ${selectedDayEvents.length ? `
+                <div class="stack-sm">
+                  ${selectedDayEvents.map(ev => `
+                    <div style="padding:0.6rem 0.75rem;border-radius:11px;background:var(--bg-subtle);border:1px solid var(--border-sage);display:flex;align-items:center;gap:0.5rem;font-size:0.76rem;">
+                      <span style="width:8px;height:8px;border-radius:999px;flex-shrink:0;background:${ev.color};"></span>
+                      <span>${ev.text}</span>
+                    </div>
+                  `).join('')}
+                </div>
+              ` : `<div class="text-xs subtle">No book dues or seat bookings on this date.</div>`}
+            </div>
+
+            <div style="display:flex;flex-wrap:wrap;gap:0.75rem;margin-top:1rem;padding-top:0.75rem;border-top:1px solid #E9EFEA;font-size:0.68rem;color:var(--ink-600);">
+              <span><span style="color:var(--rose-ink);">●</span> Overdue</span>
+              <span><span style="color:var(--amber-ink);">●</span> Due Soon</span>
+              <span><span style="color:var(--emerald-ink);">●</span> On Time</span>
+              <span><span style="color:var(--sage-600);">●</span> Seat Booked</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  },
+
+  profile() {
+    const prof = getProfile();
+    const totalFines = sumBy(STATE.books, getBookFine);
+    const overdueCount = STATE.books.filter(b => b.dueOffset < 0 && !b.finePaid).length;
+
+    return `
+      <div class="view-enter narrow-wrap">
+        ${demoNoticeBar()}
+
+        <div class="page-head">
+          <div>
+            <span class="eyebrow-label">Digital Campus Identity</span>
+            <h1 class="page-title">Student &amp; Faculty Profile</h1>
+          </div>
+          <div class="role-switch">
+            <button data-act="set-role" data-role="student" class="role-btn ${STATE.role === 'student' ? 'active' : ''}">Student View</button>
+            <button data-act="set-role" data-role="faculty" class="role-btn ${STATE.role === 'faculty' ? 'active' : ''}">Faculty View</button>
+          </div>
+        </div>
+
+        <div class="split-12 ratio-5-7">
+          <div class="stack-lg">
+            <div class="id-card-dark">
+              <div class="flex-between" style="padding-bottom:1rem;margin-bottom:1rem;border-bottom:1px solid rgba(255,255,255,0.15);">
+                <div>
+                  <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:#B8CEC3;">Lovely Professional University</div>
+                  <div style="font-size:0.75rem;color:#93B0A2;">Sample Digital Study Pass</div>
+                </div>
+                <span class="pill-tag" style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:#FFFFFF;">${prof.roleLabel}</span>
+              </div>
+
+              <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem;">
+                <div class="font-serif" style="width:56px;height:56px;border-radius:16px;background:var(--bg-canvas);color:var(--ink-900);font-size:1.5rem;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;">${prof.initials}</div>
+                <div>
+                  <h2 style="font-size:1.5rem;font-weight:500;color:#FFFFFF;">${prof.name}</h2>
+                  <div style="font-size:0.76rem;color:#C7D9D0;">${prof.department}</div>
+                  <div style="font-size:0.7rem;color:#93B0A2;margin-top:2px;">${prof.meta}</div>
+                </div>
+              </div>
+
+              <div style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.16);border-radius:16px;padding:0.9rem;display:flex;align-items:center;justify-content:space-between;gap:0.75rem;">
+                <div>
+                  <div style="font-size:0.64rem;text-transform:uppercase;letter-spacing:0.12em;color:#B8CEC3;">University ID</div>
+                  <div style="font-family:monospace;font-weight:700;font-size:0.95rem;margin-top:2px;">${prof.idNumber}</div>
+                  <div style="font-size:0.7rem;color:#C7D9D0;margin-top:2px;">${prof.email}</div>
+                </div>
+                <div style="background:#FFFFFF;padding:6px;border-radius:11px;color:var(--ink-900);flex-shrink:0;">
+                  ${qrSvg(64)}
+                </div>
+              </div>
+            </div>
+
+            <div class="card stack-md" style="padding:1.5rem;">
+              <h3 style="font-size:1.3rem;font-weight:500;">Editable Study Preferences</h3>
+              <div>
+                <label class="block text-xs semibold muted" style="display:block;margin-bottom:4px;">Default Mode</label>
+                <select id="pref-mode" class="field-select">
+                  <option value="solo" ${prof.defaultMode === 'solo' ? 'selected' : ''}>Solo Study</option>
+                  <option value="group" ${prof.defaultMode === 'group' ? 'selected' : ''}>Group Study</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs semibold muted" style="display:block;margin-bottom:4px;">Preferred Building</label>
+                <select id="pref-bld" class="field-select">
+                  ${BUILDINGS.map(b => `<option value="${b.id}" ${prof.defaultBuilding === b.id ? 'selected' : ''}>${b.name} (${b.block})</option>`).join('')}
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs semibold muted" style="display:block;margin-bottom:4px;">Preferred Noise Level</label>
+                <select id="pref-noise" class="field-select">
+                  ${['Any', 'Silent', 'Quiet'].map(n => `<option value="${n}" ${prof.defaultNoise === n ? 'selected' : ''}>${n}</option>`).join('')}
+                </select>
+              </div>
+              <button data-act="save-prefs" class="btn-primary" style="width:100%;">Save Study Preferences</button>
+            </div>
+          </div>
+
+          <div class="stack-lg">
+            <div class="grid-2">
+              <div class="card" style="padding:1.25rem;">
+                <div class="kpi-label">Active Seat Bookings</div>
+                <div class="kpi-val">${STATE.bookings.length}</div>
+                <button data-go="location" class="text-xs semibold" style="color:var(--sage-700);margin-top:0.5rem;">Book a new seat →</button>
+              </div>
+              <div class="card" style="padding:1.25rem;">
+                <div class="kpi-label">Pending Library Dues</div>
+                <div class="kpi-val" style="color:${totalFines > 0 ? 'var(--rose-dark)' : 'var(--emerald-dark)'};">₹${totalFines} <span style="font-family:var(--font-sans);font-size:0.75rem;color:var(--ink-500);">(${overdueCount} overdue)</span></div>
+                <button data-go="books" class="text-xs semibold" style="color:var(--sage-700);margin-top:0.5rem;">Open Books &amp; Reminders →</button>
+              </div>
+            </div>
+
+            <div class="card" style="padding:1.5rem;">
+              <div style="padding-bottom:0.85rem;border-bottom:1px solid #E9EFEA;margin-bottom:1rem;">
+                <h2 style="font-size:1.35rem;font-weight:500;">Active Seat Booking Passes</h2>
+                <p class="text-xs muted" style="margin-top:2px;">Cancelling a booking immediately frees the chair back to green.</p>
+              </div>
+
+              ${STATE.bookings.length ? `
+                <div class="stack-sm">
+                  ${STATE.bookings.map(bk => `
+                    <div style="padding:1rem;border-radius:14px;background:var(--bg-subtle);border:1px solid var(--border-sage);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.75rem;">
+                      <div>
+                        <div style="display:flex;align-items:center;gap:0.5rem;">
+                          <span class="pill-tag pill-ink">Seat ${bk.chairCode}</span>
+                          <strong class="text-sm">${bk.spaceName}</strong>
+                        </div>
+                        <div class="text-xs muted" style="margin-top:4px;">${bk.buildingName} (${bk.block}) · Floor ${bk.floor}</div>
+                        <div class="text-xs subtle" style="margin-top:2px;">${bk.slot}</div>
+                      </div>
+                      <div style="display:flex;gap:0.45rem;">
+                        <button data-act="view-pass" data-id="${bk.bookingId}" class="btn-secondary btn-sm">QR Pass</button>
+                        <button data-act="cancel-pass" data-id="${bk.bookingId}" class="btn-danger-soft btn-sm">Cancel</button>
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+              ` : `
+                <div style="text-align:center;padding:2rem 1rem;">
+                  <div class="tile-num" style="margin-bottom:0.35rem;">Empty Log</div>
+                  <div class="semibold text-sm">No Active Seat Passes</div>
+                  <p class="text-xs muted" style="margin:0.3rem 0 1rem;">Explore any building floor to reserve a vacant chair.</p>
+                  <button data-go="preference" class="btn-primary btn-sm">Find a Seat →</button>
+                </div>
+              `}
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  },
+
+  flow() {
+    const nodes = [
+      { n: '01', id: 'home', t: 'Overview', d: 'Clear purpose, 3-step guide & snapshot' },
+      { n: '02', id: 'preference', t: 'Study Preferences', d: 'Role, Solo/Group & Noise' },
+      { n: '03', id: 'location', t: 'Building & Floor', d: '4 LPU blocks & floor elevations' },
+      { n: '04', id: 'occupancy', t: 'Seat Availability', d: 'Floor interior green/red chairs' },
+      { n: '05', id: 'details', t: 'Space Details', d: 'Facilities & study session time slots' },
+      { n: '06', id: 'final', t: 'Digital Pass', d: 'QR pass, save & share' }
+    ];
+    const donePct = Math.round((STATE.completedTasks.length / CP5_TASKS.length) * 100);
+
+    return `
+      <div class="view-enter narrow-wrap">
+        ${demoNoticeBar()}
+
+        <div class="page-head">
+          <div>
+            <span class="eyebrow-label">INT335 Design Thinking · CP5 Deliverable</span>
+            <h1 class="page-title">Interactive User Flow &amp; Usability Testing</h1>
+            <p class="page-sub">Click any node in the flow diagram to open that screen, and track usability test completion below.</p>
+          </div>
+        </div>
+
+        <div class="card" style="padding:1.5rem;margin-bottom:1.5rem;">
+          <h2 style="font-size:1.35rem;font-weight:500;margin-bottom:1rem;">Connected 6-Screen User Flow + Side Paths</h2>
+          <div class="grid-3" style="margin-bottom:1.25rem;">
+            ${nodes.map(nd => `
+              <button data-go="${nd.id}" class="card card-hover" style="padding:1rem;text-align:left;display:flex;align-items:flex-start;gap:0.75rem;">
+                <span class="tile-num" style="font-size:1.1rem;">${nd.n}</span>
+                <div>
+                  <div class="bold text-sm">${nd.t}</div>
+                  <div class="text-xs muted" style="margin-top:2px;">${nd.d}</div>
+                </div>
+              </button>
+            `).join('')}
+          </div>
+
+          <div class="grid-2" style="padding-top:1rem;border-top:1px solid #E9EFEA;">
+            <button data-go="books" style="padding:1rem;border-radius:14px;background:var(--bg-sage-tint);border:1px solid var(--sage-200);display:flex;align-items:center;justify-content:space-between;text-align:left;">
+              <div>
+                <span class="eyebrow-label" style="margin-bottom:2px;color:var(--sage-700);">Side Path A</span>
+                <div class="bold text-sm">Books, Fines &amp; Smart Reminders</div>
+              </div>
+              <span class="bold">→</span>
+            </button>
+            <button data-go="profile" style="padding:1rem;border-radius:14px;background:var(--bg-subtle);border:1px solid var(--border-sage);display:flex;align-items:center;justify-content:space-between;text-align:left;">
+              <div>
+                <span class="eyebrow-label" style="margin-bottom:2px;color:var(--ink-500);">Side Path B</span>
+                <div class="bold text-sm">Digital Student / Faculty Profile &amp; ID</div>
+              </div>
+              <span class="bold">→</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="card" style="padding:1.5rem;">
+          <div class="flex-between" style="margin-bottom:0.85rem;">
+            <div>
+              <h2 style="font-size:1.35rem;font-weight:500;">CP5 Usability Testing Checklist</h2>
+              <p class="text-xs muted">Check off tasks as LPU students and teachers complete them during testing.</p>
+            </div>
+            <span class="pill-tag pill-sage">${STATE.completedTasks.length} of ${CP5_TASKS.length} Completed (${donePct}%)</span>
+          </div>
+
+          <div style="width:100%;height:8px;background:var(--bg-mist);border-radius:999px;overflow:hidden;margin-bottom:1.25rem;">
+            <div style="width:${donePct}%;height:100%;background:var(--ink-800);border-radius:999px;transition:width 0.3s ease;"></div>
+          </div>
+
+          <div class="stack-sm">
+            ${CP5_TASKS.map((t, idx) => {
+              const checked = STATE.completedTasks.includes(t.id);
+              return `
+                <button data-act="toggle-task" data-id="${t.id}" style="width:100%;padding:0.95rem 1rem;border-radius:14px;border:1px solid ${checked ? 'var(--emerald-border)' : 'var(--border-sage)'};background:${checked ? 'var(--emerald-soft)' : 'var(--bg-subtle)'};display:flex;align-items:flex-start;gap:0.75rem;text-align:left;">
+                  <span style="width:24px;height:24px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;flex-shrink:0;margin-top:1px;background:${checked ? 'var(--emerald-dark)' : 'var(--bg-white)'};color:${checked ? '#FFFFFF' : 'var(--ink-500)'};border:1px solid ${checked ? 'var(--emerald-dark)' : 'var(--border-sage)'};">${checked ? '✓' : idx + 1}</span>
+                  <span class="text-sm" style="${checked ? 'text-decoration:line-through;color:var(--emerald-dark);opacity:0.8;' : 'color:var(--ink-900);'}">${t.text}</span>
+                </button>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+};
+
+function renderModal() {
+  const root = document.getElementById('modal-root');
+  if (!STATE.paymentModalBookId) {
+    root.innerHTML = '';
+    return;
+  }
+  const book = STATE.books.find(b => b.id === STATE.paymentModalBookId);
+  if (!book) {
+    root.innerHTML = '';
+    return;
+  }
+  const fine = getBookFine(book);
+  const absDays = Math.abs(book.dueOffset);
+  root.innerHTML = `
+    <div class="modal-backdrop">
+      <div class="card modal-box view-enter">
+        <div class="flex-between" style="padding-bottom:0.85rem;border-bottom:1px solid #E9EFEA;margin-bottom:1rem;">
+          <div>
+            <span class="eyebrow-label" style="margin-bottom:2px;">LPU Demo Fine Settlement</span>
+            <h3 style="font-size:1.4rem;font-weight:500;">Pay Overdue Library Fine</h3>
+          </div>
+          <button data-act="close-pay-modal" class="icon-pill-btn" style="width:32px;height:32px;font-size:0.8rem;">✕</button>
+        </div>
+
+        <div style="padding:0.9rem 1rem;border-radius:14px;background:var(--rose-soft);border:1px solid var(--rose-border);margin-bottom:1rem;">
+          <div class="bold text-xs">${book.title}</div>
+          <div class="flex-between" style="margin-top:0.4rem;">
+            <span class="text-xs" style="color:var(--rose-dark);">${absDays} ${absDays === 1 ? 'day' : 'days'} overdue × ₹5 per day</span>
+            <strong class="font-serif" style="font-size:1.35rem;color:var(--rose-dark);">₹${fine}</strong>
+          </div>
+        </div>
+
+        <div class="text-xs semibold muted" style="margin-bottom:0.5rem;">Select Demo Payment Method</div>
+        <div class="grid-3" style="gap:0.5rem;margin-bottom:1.25rem;">
+          ${['UPI', 'Campus Wallet', 'Card'].map(m => `
+            <button data-act="set-pay-method" data-val="${m}" class="chip-btn" style="padding:0.55rem 0.4rem;text-align:center;${STATE.paymentMethod === m ? 'background:var(--ink-800);color:#FFFFFF;border-color:var(--ink-800);' : ''}">${m}</button>
+          `).join('')}
+        </div>
+
+        <div style="display:flex;gap:0.65rem;">
+          <button data-act="close-pay-modal" class="btn-secondary" style="flex:1;">Cancel</button>
+          <button data-act="confirm-pay-fine" data-bk="${book.id}" class="btn-primary" style="flex:1;">Pay ₹${fine} Now (Demo)</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderApp(keepScroll = false) {
+  const shell = document.getElementById('app-shell');
+
+  if (STATE.screen === 'home') {
+    shell.innerHTML = `${renderHeader()}<main style="flex:1;padding-bottom:3.5rem;">${VIEWS.home()}</main>${renderMobileBottomNav()}`;
+  } else {
+    shell.innerHTML = `
+      ${renderHeader()}
+      <main class="container workspace-main">
+        ${VIEWS[STATE.screen]()}
+      </main>
+      ${renderMobileBottomNav()}
+    `;
+  }
+
+  renderModal();
+  if (!keepScroll) window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function copyText(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try {
+    document.execCommand('copy');
+    showToast('Details Copied', 'Ready to paste into WhatsApp or Teams.', 'green');
+  } catch (err) {
+    showToast('Copy Unavailable', 'Please copy the pass details manually.', 'amber');
+  }
+  ta.remove();
+}
+
+document.addEventListener('click', (e) => {
+  const goEl = e.target.closest('[data-go]');
+  if (goEl) {
+    STATE.screen = goEl.dataset.go;
+    renderApp(false);
+    return;
+  }
+
+  const actEl = e.target.closest('[data-act]');
+  if (!actEl || actEl.disabled) return;
+  const act = actEl.dataset.act;
+
+  if (act === 'set-role') {
+    STATE.role = actEl.dataset.role;
+    showToast(`Switched to ${getProfile().roleLabel}`, `Signed in as ${getProfile().name} (${getProfile().idNumber})`, 'sage');
+    renderApp(true);
+  }
+  else if (act === 'toggle-faq') {
+    const idx = Number(actEl.dataset.idx);
+    STATE.openFaq = STATE.openFaq === idx ? -1 : idx;
+    renderApp(true);
+  }
+  else if (act === 'set-mode') { STATE.mode = actEl.dataset.mode; renderApp(true); }
+  else if (act === 'set-noise') { STATE.noise = actEl.dataset.val; renderApp(true); }
+  else if (act === 'set-size') { STATE.groupSize = Number(actEl.dataset.val); renderApp(true); }
+  else if (act === 'jump-bld') { STATE.buildingId = actEl.dataset.bld; STATE.floor = 1; STATE.screen = 'location'; renderApp(false); }
+  else if (act === 'focus-bld') { STATE.buildingId = actEl.dataset.bld; STATE.floor = 1; renderApp(true); }
+  else if (act === 'switch-bld-quick') {
+    STATE.buildingId = actEl.dataset.bld;
+    STATE.floor = 1;
+    STATE.floorFilter = 'all';
+    const list = accessibleSpaces(SPACES.filter(s => s.bld === STATE.buildingId && s.floor === 1));
+    if (list.length) STATE.activeSpaceId = list[0].id;
+    STATE.selectedChair = null;
+    renderApp(true);
+  }
+  else if (act === 'enter-floor') {
+    STATE.buildingId = actEl.dataset.bld || STATE.buildingId;
+    STATE.floor = Number(actEl.dataset.fl);
+    STATE.floorFilter = 'all';
+    const list = accessibleSpaces(SPACES.filter(s => s.bld === STATE.buildingId && s.floor === STATE.floor));
+    if (list.length) STATE.activeSpaceId = list[0].id;
+    STATE.selectedChair = null;
+    STATE.screen = 'occupancy';
+    renderApp(false);
+  }
+  else if (act === 'set-floor-filter') { STATE.floorFilter = actEl.dataset.val; renderApp(true); }
+  else if (act === 'select-space') { STATE.activeSpaceId = actEl.dataset.sp; STATE.selectedChair = null; renderApp(true); }
+  else if (act === 'pick-chair') {
+    const { sp, ch, code } = actEl.dataset;
+    STATE.selectedChair = (STATE.selectedChair && STATE.selectedChair.chairId === ch) ? null : { spaceId: sp, chairId: ch, code };
+    renderApp(true);
+  }
+  else if (act === 'open-details') { STATE.activeSpaceId = actEl.dataset.sp; STATE.screen = 'details'; renderApp(false); }
+  else if (act === 'set-slot') { STATE.timeSlot = actEl.dataset.val; renderApp(true); }
+  else if (act === 'proceed-final') {
+    const sp = getSpace(STATE.activeSpaceId);
+    const bld = getBuilding(sp.bld);
+    const prof = getProfile();
+    const chair = STATE.selectedChair && STATE.selectedChair.spaceId === sp.id
+      ? sp.chairs.find(c => c.id === STATE.selectedChair.chairId)
+      : sp.chairs.find(c => c.status === 'vacant');
+    if (!chair || chair.status !== 'vacant') {
+      showToast('Select a Vacant Chair', 'Please pick a green vacant chair first.', 'amber');
+      return;
+    }
+    STATE.lastPass = {
+      bookingId: 'LPU-' + Math.floor(1000 + Math.random() * 9000),
+      userName: prof.name,
+      userId: prof.idNumber,
+      buildingId: bld.id,
+      buildingName: bld.name,
+      block: bld.block,
+      floor: sp.floor,
+      spaceId: sp.id,
+      spaceName: sp.name,
+      chairId: chair.id,
+      chairCode: chair.code,
+      slot: STATE.timeSlot,
+      date: fmtDate(TODAY),
+      noise: sp.noise,
+      facilities: sp.facilities
+    };
+    STATE.screen = 'final';
+    renderApp(false);
+  }
+  else if (act === 'save-pass') {
+    const pass = STATE.lastPass;
+    if (!pass) return;
+    const sp = getSpace(pass.spaceId);
+    const ch = sp.chairs.find(c => c.id === pass.chairId);
+    if (ch) ch.status = 'mine';
+    if (!STATE.bookings.some(b => b.bookingId === pass.bookingId)) {
+      STATE.bookings.unshift(pass);
+    }
+    STATE.selectedChair = null;
+    showToast(`Seat ${pass.chairCode} Saved`, `${pass.spaceName} added to your Profile & Reminders.`, 'green');
+    renderApp(true);
+  }
+  else if (act === 'add-study-rem') {
+    const pass = STATE.lastPass || STATE.bookings[0];
+    if (!pass) return;
+    STATE.customReminders.unshift({
+      id: 'rem-' + Date.now(),
+      title: `Study session at ${pass.spaceName} (Seat ${pass.chairCode}, ${pass.buildingName})`,
+      category: 'Study Session',
+      when: pass.slot,
+      done: false
+    });
+    showToast('Study Reminder Added', 'View it anytime under Books & Reminders.', 'sage');
+    renderApp(true);
+  }
+  else if (act === 'copy-pass') {
+    const pass = STATE.lastPass || STATE.bookings[0];
+    if (!pass) return;
+    copyText(`A Seat to Study (LPU Demo Pass)\nPass: ${pass.bookingId}\nSpace: ${pass.spaceName} — Seat ${pass.chairCode}\nLocation: ${pass.buildingName} (${pass.block}), Floor ${pass.floor}\nStudy Session: ${pass.slot}\nFacilities: ${pass.facilities.join(', ')}`);
+  }
+  else if (act === 'view-pass') {
+    const found = STATE.bookings.find(b => b.bookingId === actEl.dataset.id);
+    if (found) { STATE.lastPass = found; STATE.screen = 'final'; renderApp(false); }
+  }
+  else if (act === 'cancel-pass') {
+    const id = actEl.dataset.id;
+    const idx = STATE.bookings.findIndex(b => b.bookingId === id);
+    if (idx >= 0) {
+      const bk = STATE.bookings[idx];
+      const sp = getSpace(bk.spaceId);
+      const ch = sp.chairs.find(c => c.id === bk.chairId);
+      if (ch) ch.status = 'vacant';
+      STATE.bookings.splice(idx, 1);
+      if (STATE.lastPass && STATE.lastPass.bookingId === id) STATE.lastPass = STATE.bookings[0] || null;
+      showToast('Booking Cancelled', `Seat ${bk.chairCode} is now vacant and green again.`, 'amber');
+      renderApp(true);
+    }
+  }
+  else if (act === 'refresh-demo') {
+    SPACES.forEach(sp => {
+      sp.chairs.forEach(ch => {
+        if (ch.status !== 'mine' && Math.random() < 0.16) {
+          ch.status = ch.status === 'vacant' ? 'booked' : 'vacant';
+        }
+      });
+    });
+    STATE.lastRefreshed = fmtTimeNow();
+    STATE.selectedChair = null;
+    showToast('Sample Occupancy Refreshed', `Updated sample chair counts at ${STATE.lastRefreshed}.`, 'sage');
+    renderApp(true);
+  }
+  else if (act === 'renew-book') {
+    const bk = STATE.books.find(b => b.id === actEl.dataset.bk);
+    if (bk) {
+      bk.dueOffset = Math.max(bk.dueOffset, 0) + 7;
+      showToast('Book Renewed (+7 Days)', `${bk.title} is now due ${fmtShortDate(addDays(bk.dueOffset))}.`, 'green');
+      renderApp(true);
+    }
+  }
+  else if (act === 'open-pay-modal') {
+    STATE.paymentModalBookId = actEl.dataset.bk;
+    renderModal();
+  }
+  else if (act === 'close-pay-modal') {
+    STATE.paymentModalBookId = null;
+    renderModal();
+  }
+  else if (act === 'set-pay-method') {
+    STATE.paymentMethod = actEl.dataset.val;
+    renderModal();
+  }
+  else if (act === 'confirm-pay-fine') {
+    const bk = STATE.books.find(b => b.id === actEl.dataset.bk);
+    if (bk) {
+      const paidAmt = getBookFine(bk);
+      bk.finePaid = true;
+      STATE.paymentModalBookId = null;
+      showToast(`Fine Paid (₹${paidAmt})`, `Settled via ${STATE.paymentMethod}. Renewal (+7 days) is now unlocked.`, 'green');
+      renderApp(true);
+    }
+  }
+  else if (act === 'quick-book-rem') {
+    const bk = STATE.books.find(b => b.id === actEl.dataset.bk);
+    if (bk) {
+      STATE.customReminders.unshift({
+        id: 'rem-' + Date.now(),
+        title: `Return or renew "${bk.title}" (${bk.callNo})`,
+        category: 'Book Due',
+        when: `Due ${fmtShortDate(addDays(bk.dueOffset))}`,
+        done: false
+      });
+      showToast('Book Reminder Set', `Added alert for ${bk.title}.`, 'sage');
+      renderApp(true);
+    }
+  }
+  else if (act === 'dismiss-rem') {
+    const id = actEl.dataset.id;
+    if (actEl.dataset.auto === 'true') {
+      STATE.dismissedAutoIds.push(id);
+    } else {
+      const found = STATE.customReminders.find(r => r.id === id);
+      if (found) found.done = true;
+    }
+    showToast('Reminder Marked Done', '', 'green');
+    renderApp(true);
+  }
+  else if (act === 'toggle-channel') {
+    const ch = actEl.dataset.ch;
+    STATE.channels[ch] = !STATE.channels[ch];
+    showToast(`${ch.toUpperCase()} Alerts ${STATE.channels[ch] ? 'Enabled' : 'Paused'}`, 'Demo preference updated.', 'sage');
+    renderApp(true);
+  }
+  else if (act === 'select-cal-day') {
+    STATE.selectedCalDay = Number(actEl.dataset.day);
+    renderApp(true);
+  }
+  else if (act === 'save-prefs') {
+    const p = PROFILES[STATE.role];
+    const m = document.getElementById('pref-mode');
+    const b = document.getElementById('pref-bld');
+    const n = document.getElementById('pref-noise');
+    if (m) { p.defaultMode = m.value; STATE.mode = m.value; }
+    if (b) { p.defaultBuilding = b.value; STATE.buildingId = b.value; }
+    if (n) { p.defaultNoise = n.value; STATE.noise = n.value; }
+    showToast('Preferences Saved', `Defaults updated for ${p.name}.`, 'green');
+  }
+  else if (act === 'toggle-task') {
+    const id = actEl.dataset.id;
+    STATE.completedTasks = STATE.completedTasks.includes(id)
+      ? STATE.completedTasks.filter(x => x !== id)
+      : [...STATE.completedTasks, id];
+    renderApp(true);
+  }
+});
+
+document.addEventListener('submit', (e) => {
+  if (e.target.id === 'add-reminder-form') {
+    e.preventDefault();
+    const title = document.getElementById('rem-title').value.trim();
+    const cat = document.getElementById('rem-cat').value;
+    const rawWhen = document.getElementById('rem-when').value;
+    if (!title) return;
+    const whenText = rawWhen ? new Date(rawWhen).toLocaleString('en-US', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit', hour12: true }) : fmtShortDate(TODAY);
+    STATE.customReminders.unshift({ id: 'rem-' + Date.now(), title, category: cat, when: whenText, done: false });
+    showToast('Custom Reminder Added', `${cat} · ${whenText}`, 'green');
+    renderApp(true);
+  }
+  else if (e.target.id === 'quick-search-form') {
+    e.preventDefault();
+    const q = document.getElementById('quick-search-input').value.trim().toLowerCase();
+    STATE.searchQuery = q;
+    if (!q) return;
+    const sp = accessibleSpaces(SPACES).find(s => s.name.toLowerCase().includes(q));
+    if (sp) {
+      STATE.buildingId = sp.bld;
+      STATE.floor = sp.floor;
+      STATE.activeSpaceId = sp.id;
+      STATE.screen = 'details';
+      showToast(`Opened ${sp.name}`, `${getBuilding(sp.bld).name}, Floor ${sp.floor}`, 'sage');
+      renderApp(false);
+      return;
+    }
+    const bk = STATE.books.find(b => b.title.toLowerCase().includes(q));
+    if (bk) {
+      STATE.screen = 'books';
+      showToast('Found Book', bk.title, 'sage');
+      renderApp(false);
+      return;
+    }
+    showToast('No Exact Match', 'Try searching "Reading", "Pods", or "Algorithms".', 'amber');
+  }
+});
+
+renderApp(true);
+</script>
+</body>
+</html>
